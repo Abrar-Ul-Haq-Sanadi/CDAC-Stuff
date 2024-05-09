@@ -1,0 +1,47 @@
+int getId()
+    {
+        return id;
+    }
+
+
+    string getName()
+    {
+        return name;
+    }
+
+
+    Address getAddress()
+    {
+        return address;
+    }
+
+    void setId(int id)
+    {
+        this -> id = id;
+    }
+
+    void setName(string name)
+    {
+        this -> name = name;
+    }
+
+
+    void setSalary(float salary)
+    {
+        this -> salary = salary;
+    }
+
+
+    void setId(Address address)
+    {
+        this -> address = address;
+    }
+
+
+
+
+
+
+
+
+
