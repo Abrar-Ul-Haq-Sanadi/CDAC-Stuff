@@ -1,0 +1,5 @@
+list = []
+a = int(input("Enter the  n value: "))
+
+for i in a:
+	

@@ -1,0 +1,33 @@
+1. *Understanding IP Configuration:*
+   - Practical Question: Given a scenario where a network interface needs to be configured with a specific IP address, subnet mask, and gateway, write the sequence of commands using ip e and ip a to achieve this configuration.
+
+20. *Mastering File Searching:*
+   - Practical Question: You need to find all files in the current directory modified within the last 7 days. Write a command using find to accomplish this task.
+
+3. *Locate Installation and Usage:*
+   - Practical Question: Install the locate command on your system and then use it to search for the location of the bash executable.
+
+4. *Exploring Default Shell Variables:*
+   - Practical Question: Write a shell script that utilizes the USER environment variable to greet the user by their username.
+
+5. *Understanding Command Output:*
+   - Practical Question: Write a script that executes a command of your choice and then prints whether the command was successful or not using echo $?.
+
+6. *User Management with grep:*
+   - Practical Question: Use the grep command to search for a specific user's entry in the /etc/passwd file and display only their user ID (UID) and login shell.grep
+
+7. *Deciphering File Details with ls -all:*
+   - Practical Question: List all files and directories in the current directory along with their permissions, and then explain the meaning of each permission set.
+   
+ >> ls -all
+ 
+8. *Understanding File Permissions:*
+   - Practical Question: Create a file with read, write, and execute permissions for the owner, read and execute permissions for the group, and no permissions for others. Use ls -all to verify the permissions.
+
+9. *Changing File Permissions:*
+   - Practical Question: Create a shell script file and ensure that it is executable by the owner, group, and others. Use both symbolic and numeric representations with the chmod command to achieve this.
+
+10. *Managing Permissions with umask:*
+    - Practical Question: Set the default file creation permissions using umask to deny write permissions for group and others. Create a new file and verify its permissions using ls -l.
+
+These practical questions provide hands-on experience with the commands and concepts covered.

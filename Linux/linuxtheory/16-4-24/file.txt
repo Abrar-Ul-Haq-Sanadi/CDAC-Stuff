@@ -1,0 +1,64 @@
+I agree
+It is just that, going by our history of
+ interactions with Eileen ma'am, 
+we didn't go to her through Swati ma'am earlier,
+ to postpone the ppt activity till tomorrow. We discussed it with her directly, and had it shifted. 
+I was going by that, and had that as a better way of solving the issue in my mind.
+
+Please don't mind my inactivity on the official group.
+
+I empathize well with our students residing in Panchvati. I hope, our informing ma'am indeed helps in pushing the date ahead.
+
+Never mind.
+“College students need to be very careful that they understand whether 
+or not their parents are eligible to claim them as a dependent,” 
+says Tom O’Saben, director of tax content and government 
+relations at the American Assn. of Tax Professionals. Merely not claiming a dependent does not make that taxpayer independent, he says.
+
+Claim all eligible college and other education tax credits
+
+There are two kinds of education tax credits. 
+The American Opportunity Credit is for up to $2,500 a year 
+(based on spending at least $4,000 on tuition, 
+books and fees) for the first four years toward an undergraduate degree.
+
+The second, the Lifetime 
+Learning Credit, can be used toward an 
+undergraduate, graduate or professional 
+degree and is for up to $2,000 (based on 20% of qualifying education expenses).
+
+A parent cannot claim both credits for the same dependent child on a return 
+in the same year; nor can a student who files. 
+If there are multiple dependents on a parent’s return, both credits may be used so long as just one is claimed for each student.
+
+Double-check that all forms are in hand
+a
+Are you finding it challenging to view file content in Linux? 
+You’re not alone. Many users find themselves puzzled when it comes to handling large text files in Linux,
+ but luckily there is a tool that can help. 
+Think of the ‘more’ Linux command as a powerful 
+telescope – allowing you to inspect file content page by page, providing a versatile and handy tool for various tasks.
+
+In this guide, we’ll walk you through the process of using the ‘more’ command in Linux,
+ from its basic usage to more advanced techniques. We’ll cover everything from viewing single and multiple files, searching within the file, 
+to alternative approaches and troubleshooting common issues.
+
+Let’s get started and master the ‘more’ command in Linux!
+TL;DR: How Do I Use the ‘More’ Command in Linux?
+
+    The 'more' command in Linux is used to view the contents of a file in a page-by-page manner.
+ You can use it with the syntax, more [options] filename.txt. This command will display the contents of ‘filename.txt’ page by page.
+
+
+In this example, the ‘more’ command displays the contents of ‘myfile.txt’ on your screen. 
+The output is the first few lines of the file, and you can press the space bar or Enter to view the next page of the file.
+Advantages of ‘More’
+
+The ‘more’ command is particularly useful when dealing with large files. 
+It allows you to digest the file’s contents in bite-sized chunks rather than overwhelming you with the entire content at once.
+Potential Pitfalls
+
+While the ‘more’ command is incredibly useful, it does have its limitations. For instance, it only allows you to navigate 
+forwards through a file, not backwards. If you miss something and want to go back, you’d have to exit and re-open the file.
+
+In the next section, we’ll discuss more advanced uses of the ‘more’ command and how to overcome some of these limitations.

@@ -1,0 +1,14 @@
+#!/bin/bash
+
+echo "This acript performs the addition"
+echo "enter first numnber"
+read num1
+echo "enter second numnber"
+read num2
+
+#result=$(($num1 + $num2))
+result=`expr $num1 + $num2`
+
+
+echo  " The addition result is $result"
+

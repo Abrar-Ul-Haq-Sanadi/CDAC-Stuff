@@ -1,0 +1,30 @@
+1. Classes in Python:
+   Write a Python class called Car with attributes make, model, and year. Create an instance of the Car class and print its attributes.
+
+2. init and self:
+   Create a Python class called Student with attributes name and age. Implement the init method to initialize these attributes. Then, create an instance of the Student class and print its name and age.
+
+3. File Handling:
+   Write a Python program to open a text file named example.txt in read mode and print its contents.
+
+4. Writing in a File:
+   Create a Python program that asks the user to enter three lines of text and then writes these lines into a file named output.txt.
+
+5. Appending Data to a File:
+   Extend the previous program to ask the user if they want to append more lines to the output.txt file and if yes, allow them to input additional lines and append them to the file.
+
+6. Handling File Exceptions:
+   Modify the file reading program to handle the FileNotFoundError exception if the file does not exist.
+
+7. Reading a File in Binary Mode:
+   Write a Python program to open an image file in binary mode ('rb') and display its content as a binary string.
+
+8. Using Classes for File Handling:
+   Create a class called FileManager with methods read_file(filename) and write_file(filename, content). Use this class to read the contents of a file named data.txt and then write those contents into a new file named copy.txt.
+
+9. Error Handling with File Operations:
+   Modify the file writing program to handle the PermissionError if the program does not have permission to write to the specified file.
+
+10. Using Classes for File Management:
+    Enhance the FileManager class to include a method append_to_file(filename, content) that appends content to an existing file.
+

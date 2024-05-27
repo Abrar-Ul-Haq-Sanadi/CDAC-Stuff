@@ -1,0 +1,3 @@
+The new line is added
+By witing into the file previous content is overwrittenThe new line is appended
+By using the mode  -> a into the file previous content is appended
