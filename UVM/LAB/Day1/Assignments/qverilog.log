@@ -1,0 +1,4 @@
+QuestaSim qverilog 10.1d Compiler 2012.11 Nov  1 2012
+C:\questasim_10.1d\win32\qverilog.exe .\Assignment_1_Phases_UVM\ 
+** Error: (qverilog-7) Failed to open design unit file ".\Assignment_1_Phases_UVM\" in read mode.
+No such file or directory. (errno = ENOENT)

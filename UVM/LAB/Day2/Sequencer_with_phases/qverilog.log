@@ -1,0 +1,37 @@
+QuestaSim qverilog 10.1d Compiler 2012.11 Nov  1 2012
+C:\questasim_10.1d\win32\qverilog.exe .\top.sv 
+** Note: (qverilog-2286) Using implicit +incdir+C:/questasim_10.1d/uvm-1.1c/../verilog_src/uvm-1.1c/src from import uvm_pkg
+** Warning: dvlsi_sequence.sv(1): (qverilog-2181) Use of a parameterized class uvm_sequence as a type creates a default specialization.
+-- Compiling package top_sv_unit
+-- Importing package mtiUvm.uvm_pkg (uvm-1.1c Built-in)
+** Warning: dvlsi_sequence.sv(1): (qverilog-2181) Use of a parameterized class uvm_sequence as a type creates a default specialization.
+-- Compiling module top
+** Warning: dvlsi_sequence.sv(1): (qverilog-2181) Use of a parameterized class uvm_sequence as a type creates a default specialization.
+
+Top level modules:
+	top
++ C:\questasim_10.1d\win32/vsim -lib work top -c -do "run -all; quit -f" -appendlog -l qverilog.log -vopt
+# vsim -appendlog -do {run -all; quit -f} -l qverilog.log -lib work -c -vopt top 
+# ** Note: (vsim-3813) Design is being optimized due to module recompilation...
+# 
+# //  Questa Sim
+# //  Version 10.1d win32 Nov  1 2012
+# //
+# //  Copyright 1991-2012 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  THIS WORK CONTAINS TRADE SECRET AND PROPRIETARY INFORMATION
+# //  WHICH IS THE PROPERTY OF MENTOR GRAPHICS CORPORATION OR ITS
+# //  LICENSORS AND IS SUBJECT TO LICENSE TERMS.
+# //
+# Loading sv_std.std
+# Loading mtiUvm.uvm_pkg(fast)
+# Loading work.top_sv_unit(fast)
+# Loading work.top(fast)
+# Loading mtiUvm.questa_uvm_pkg(fast)
+# ** Error: (vsim-3978) dvlsi_sequencer.sv(16): Illegal assignment to class mtiUvm.uvm_pkg::uvm_sequencer_base from class work.top_sv_unit::dvlsi_sequencer
+#    Time: 0 ns  Iteration: 0  Region: /top_sv_unit File: ./top.sv
+# ** Error: (vsim-8754) ./top.sv(16): Actual input arg. of type 'class work.top_sv_unit::dvlsi_sequencer' for formal 'sequencer' of 'start' is not compatible with the formal's type 'class mtiUvm.uvm_pkg::uvm_sequencer_base'.
+# 
+#         Region: /top_sv_unit
+# Error loading design

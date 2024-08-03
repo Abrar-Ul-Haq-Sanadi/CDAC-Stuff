@@ -1,0 +1,250 @@
+QuestaSim qverilog 10.1d Compiler 2012.11 Nov  1 2012
+C:\questasim_10.1d\win32\qverilog.exe .\top.sv 
+** Note: (qverilog-2286) Using implicit +incdir+C:/questasim_10.1d/uvm-1.1c/../verilog_src/uvm-1.1c/src from import uvm_pkg
+-- Compiling package top_sv_unit
+-- Importing package mtiUvm.uvm_pkg (uvm-1.1c Built-in)
+-- Compiling module top
+
+Top level modules:
+	top
++ C:\questasim_10.1d\win32/vsim -lib work top -c -do "run -all; quit -f" -appendlog -l qverilog.log -vopt
+# vsim -appendlog -do {run -all; quit -f} -l qverilog.log -lib work -c -vopt top 
+# ** Note: (vsim-3813) Design is being optimized due to module recompilation...
+# 
+# //  Questa Sim
+# //  Version 10.1d win32 Nov  1 2012
+# //
+# //  Copyright 1991-2012 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  THIS WORK CONTAINS TRADE SECRET AND PROPRIETARY INFORMATION
+# //  WHICH IS THE PROPERTY OF MENTOR GRAPHICS CORPORATION OR ITS
+# //  LICENSORS AND IS SUBJECT TO LICENSE TERMS.
+# //
+# Loading sv_std.std
+# Loading mtiUvm.uvm_pkg(fast)
+# Loading work.top_sv_unit(fast)
+# Loading work.top(fast)
+# Loading mtiUvm.questa_uvm_pkg(fast)
+# Loading C:/questasim_10.1d/uvm-1.1c\win32\uvm_dpi.dll
+# run -all 
+# ----------------------------------------------------------------
+# UVM-1.1c
+# (C) 2007-2012 Mentor Graphics Corporation
+# (C) 2007-2012 Cadence Design Systems, Inc.
+# (C) 2006-2012 Synopsys, Inc.
+# (C) 2011-2012 Cypress Semiconductor Corp.
+# ----------------------------------------------------------------
+# 
+#   ***********       IMPORTANT RELEASE NOTES         ************
+# 
+#   You are using a version of the UVM library that has been compiled
+#   with `UVM_NO_DEPRECATED undefined.
+#   See http://www.eda.org/svdb/view.php?id=3313 for more details.
+# 
+#   You are using a version of the UVM library that has been compiled
+#   with `UVM_OBJECT_MUST_HAVE_CONSTRUCTOR undefined.
+#   See http://www.eda.org/svdb/view.php?id=3770 for more details.
+# 
+#       (Specify +UVM_NO_RELNOTES to turn off this notice)
+# 
+# UVM_INFO verilog_src/questa_uvm_pkg-1.2/src/questa_uvm_pkg.sv(215) @ 0: reporter [Questa UVM] QUESTA_UVM-1.2
+# UVM_INFO verilog_src/questa_uvm_pkg-1.2/src/questa_uvm_pkg.sv(217) @ 0: reporter [Questa UVM]  questa_uvm::init(+struct)
+# UVM_INFO @ 0: reporter [RNTST] Running test test...
+# UVM_INFO producer.sv(33) @ 2: uvm_test_top.p [uvm_test_top.p] Time: 2
+# UVM_INFO producer.sv(34) @ 2: uvm_test_top.p [uvm_test_top.p] ******************producer************
+# ----------------------------------
+# Name  Type      Size  Value       
+# ----------------------------------
+# t     txn       -     @587        
+#   a   integral  32    'd1433598891
+#   b   integral  32    -686186196  
+# ----------------------------------
+# UVM_INFO producer.sv(33) @ 4: uvm_test_top.p [uvm_test_top.p] Time: 4
+# UVM_INFO producer.sv(34) @ 4: uvm_test_top.p [uvm_test_top.p] ******************producer************
+# ----------------------------------
+# Name  Type      Size  Value       
+# ----------------------------------
+# t     txn       -     @595        
+#   a   integral  32    'd1748048641
+#   b   integral  32    -577423452  
+# ----------------------------------
+# UVM_INFO producer.sv(33) @ 6: uvm_test_top.p [uvm_test_top.p] Time: 6
+# UVM_INFO producer.sv(34) @ 6: uvm_test_top.p [uvm_test_top.p] ******************producer************
+# ----------------------------------
+# Name  Type      Size  Value       
+# ----------------------------------
+# t     txn       -     @599        
+#   a   integral  32    'd1775326742
+#   b   integral  32    -2052959438 
+# ----------------------------------
+# UVM_INFO producer.sv(33) @ 8: uvm_test_top.p [uvm_test_top.p] Time: 8
+# UVM_INFO producer.sv(34) @ 8: uvm_test_top.p [uvm_test_top.p] ******************producer************
+# ----------------------------------
+# Name  Type      Size  Value       
+# ----------------------------------
+# t     txn       -     @603        
+#   a   integral  32    'd1138158166
+#   b   integral  32    -1969367721 
+# ----------------------------------
+# UVM_INFO consumer.sv(24) @ 10: uvm_test_top.c [uvm_test_top.c] Time : 10
+# UVM_INFO consumer.sv(25) @ 10: uvm_test_top.c [uvm_test_top.c] ***********Consumer**********
+# ----------------------------------
+# Name  Type      Size  Value       
+# ----------------------------------
+# t     txn       -     @587        
+#   a   integral  32    'd1433598891
+#   b   integral  32    -686186196  
+# ----------------------------------
+# UVM_INFO producer.sv(33) @ 10: uvm_test_top.p [uvm_test_top.p] Time: 10
+# UVM_INFO producer.sv(34) @ 10: uvm_test_top.p [uvm_test_top.p] ******************producer************
+# ----------------------------------
+# Name  Type      Size  Value       
+# ----------------------------------
+# t     txn       -     @607        
+#   a   integral  32    'd1501697462
+#   b   integral  32    -1290414868 
+# ----------------------------------
+# UVM_INFO producer.sv(33) @ 12: uvm_test_top.p [uvm_test_top.p] Time: 12
+# UVM_INFO producer.sv(34) @ 12: uvm_test_top.p [uvm_test_top.p] ******************producer************
+# ----------------------------------
+# Name  Type      Size  Value       
+# ----------------------------------
+# t     txn       -     @615        
+#   a   integral  32    'd896518294 
+#   b   integral  32    -1753970852 
+# ----------------------------------
+# UVM_INFO producer.sv(33) @ 14: uvm_test_top.p [uvm_test_top.p] Time: 14
+# UVM_INFO producer.sv(34) @ 14: uvm_test_top.p [uvm_test_top.p] ******************producer************
+# ----------------------------------
+# Name  Type      Size  Value       
+# ----------------------------------
+# t     txn       -     @619        
+#   a   integral  32    'd961662956 
+#   b   integral  32    -1688290142 
+# ----------------------------------
+# UVM_INFO producer.sv(33) @ 16: uvm_test_top.p [uvm_test_top.p] Time: 16
+# UVM_INFO producer.sv(34) @ 16: uvm_test_top.p [uvm_test_top.p] ******************producer************
+# ----------------------------------
+# Name  Type      Size  Value       
+# ----------------------------------
+# t     txn       -     @623        
+#   a   integral  32    'd611767279 
+#   b   integral  32    -1557193531 
+# ----------------------------------
+# UVM_INFO producer.sv(33) @ 18: uvm_test_top.p [uvm_test_top.p] Time: 18
+# UVM_INFO producer.sv(34) @ 18: uvm_test_top.p [uvm_test_top.p] ******************producer************
+# ----------------------------------
+# Name  Type      Size  Value       
+# ----------------------------------
+# t     txn       -     @627        
+#   a   integral  32    'd1593324044
+#   b   integral  32    -449201657  
+# ----------------------------------
+# UVM_INFO consumer.sv(24) @ 20: uvm_test_top.c [uvm_test_top.c] Time : 20
+# UVM_INFO consumer.sv(25) @ 20: uvm_test_top.c [uvm_test_top.c] ***********Consumer**********
+# ----------------------------------
+# Name  Type      Size  Value       
+# ----------------------------------
+# t     txn       -     @595        
+#   a   integral  32    'd1748048641
+#   b   integral  32    -577423452  
+# ----------------------------------
+# UVM_INFO producer.sv(33) @ 20: uvm_test_top.p [uvm_test_top.p] Time: 20
+# UVM_INFO producer.sv(34) @ 20: uvm_test_top.p [uvm_test_top.p] ******************producer************
+# ----------------------------------
+# Name  Type      Size  Value       
+# ----------------------------------
+# t     txn       -     @631        
+#   a   integral  32    'd523395471 
+#   b   integral  32    -1424577318 
+# ----------------------------------
+# UVM_INFO consumer.sv(24) @ 30: uvm_test_top.c [uvm_test_top.c] Time : 30
+# UVM_INFO consumer.sv(25) @ 30: uvm_test_top.c [uvm_test_top.c] ***********Consumer**********
+# ----------------------------------
+# Name  Type      Size  Value       
+# ----------------------------------
+# t     txn       -     @599        
+#   a   integral  32    'd1775326742
+#   b   integral  32    -2052959438 
+# ----------------------------------
+# UVM_INFO consumer.sv(24) @ 40: uvm_test_top.c [uvm_test_top.c] Time : 40
+# UVM_INFO consumer.sv(25) @ 40: uvm_test_top.c [uvm_test_top.c] ***********Consumer**********
+# ----------------------------------
+# Name  Type      Size  Value       
+# ----------------------------------
+# t     txn       -     @603        
+#   a   integral  32    'd1138158166
+#   b   integral  32    -1969367721 
+# ----------------------------------
+# UVM_INFO consumer.sv(24) @ 50: uvm_test_top.c [uvm_test_top.c] Time : 50
+# UVM_INFO consumer.sv(25) @ 50: uvm_test_top.c [uvm_test_top.c] ***********Consumer**********
+# ----------------------------------
+# Name  Type      Size  Value       
+# ----------------------------------
+# t     txn       -     @607        
+#   a   integral  32    'd1501697462
+#   b   integral  32    -1290414868 
+# ----------------------------------
+# UVM_INFO consumer.sv(24) @ 60: uvm_test_top.c [uvm_test_top.c] Time : 60
+# UVM_INFO consumer.sv(25) @ 60: uvm_test_top.c [uvm_test_top.c] ***********Consumer**********
+# ----------------------------------
+# Name  Type      Size  Value       
+# ----------------------------------
+# t     txn       -     @615        
+#   a   integral  32    'd896518294 
+#   b   integral  32    -1753970852 
+# ----------------------------------
+# UVM_INFO consumer.sv(24) @ 70: uvm_test_top.c [uvm_test_top.c] Time : 70
+# UVM_INFO consumer.sv(25) @ 70: uvm_test_top.c [uvm_test_top.c] ***********Consumer**********
+# ----------------------------------
+# Name  Type      Size  Value       
+# ----------------------------------
+# t     txn       -     @619        
+#   a   integral  32    'd961662956 
+#   b   integral  32    -1688290142 
+# ----------------------------------
+# UVM_INFO consumer.sv(24) @ 80: uvm_test_top.c [uvm_test_top.c] Time : 80
+# UVM_INFO consumer.sv(25) @ 80: uvm_test_top.c [uvm_test_top.c] ***********Consumer**********
+# ----------------------------------
+# Name  Type      Size  Value       
+# ----------------------------------
+# t     txn       -     @623        
+#   a   integral  32    'd611767279 
+#   b   integral  32    -1557193531 
+# ----------------------------------
+# UVM_INFO consumer.sv(24) @ 90: uvm_test_top.c [uvm_test_top.c] Time : 90
+# UVM_INFO consumer.sv(25) @ 90: uvm_test_top.c [uvm_test_top.c] ***********Consumer**********
+# ----------------------------------
+# Name  Type      Size  Value       
+# ----------------------------------
+# t     txn       -     @627        
+#   a   integral  32    'd1593324044
+#   b   integral  32    -449201657  
+# ----------------------------------
+# UVM_INFO consumer.sv(24) @ 100: uvm_test_top.c [uvm_test_top.c] Time : 100
+# UVM_INFO consumer.sv(25) @ 100: uvm_test_top.c [uvm_test_top.c] ***********Consumer**********
+# ----------------------------------
+# Name  Type      Size  Value       
+# ----------------------------------
+# t     txn       -     @631        
+#   a   integral  32    'd523395471 
+#   b   integral  32    -1424577318 
+# ----------------------------------
+# UVM_INFO verilog_src/uvm-1.1c/src/base/uvm_objection.svh(1121) @ 100: reporter [TEST_DONE] 'run' phase is ready to proceed to the 'extract' phase
+# 
+# --- UVM Report Summary ---
+# 
+# ** Report counts by severity
+# UVM_INFO :   44
+# UVM_WARNING :    0
+# UVM_ERROR :    0
+# UVM_FATAL :    0
+# ** Report counts by id
+# [Questa UVM]     2
+# [RNTST]     1
+# [TEST_DONE]     1
+# [uvm_test_top.c]    20
+# [uvm_test_top.p]    20
+# ** Note: $finish    : C:/questasim_10.1d/win32/../verilog_src/uvm-1.1c/src/base/uvm_root.svh(427)
+#    Time: 100 ns  Iteration: 53  Instance: /top

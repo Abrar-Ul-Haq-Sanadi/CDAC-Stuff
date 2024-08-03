@@ -1,0 +1,770 @@
+QuestaSim qverilog 10.1d Compiler 2012.11 Nov  1 2012
+C:\questasim_10.1d\win32\qverilog.exe .\adder_top.sv -gui 
+** Note: (qverilog-2286) Using implicit +incdir+C:/questasim_10.1d/uvm-1.1c/../verilog_src/uvm-1.1c/src from import uvm_pkg
+-- Compiling interface adder_intf
+** Warning: adder_virtual_sequencer.sv(2): (qverilog-2181) Use of a parameterized class uvm_sequencer as a type creates a default specialization.
+** Warning: adder_virtual_sequencer.sv(2): (qverilog-2181) Use of a parameterized class uvm_sequencer as a type creates a default specialization.
+-- Compiling package adder_top_sv_unit
+-- Importing package mtiUvm.uvm_pkg (uvm-1.1c Built-in)
+-- Importing package adder_package
+** Warning: adder_virtual_sequencer.sv(2): (qverilog-2181) Use of a parameterized class uvm_sequencer as a type creates a default specialization.
+-- Compiling module adder
+-- Compiling interface adder_intf
+-- Compiling package adder_package
+** Warning: adder_virtual_sequencer.sv(2): (qverilog-2181) Use of a parameterized class uvm_sequencer as a type creates a default specialization.
+-- Compiling module adder_top
+
+Top level modules:
+	adder_top
++ C:\questasim_10.1d\win32/vsim -lib work adder_top -appendlog -l qverilog.log -vopt
+# //  Questa Sim
+# //  Version 10.1d win32 Nov  1 2012
+# //
+# //  Copyright 1991-2012 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  THIS WORK CONTAINS TRADE SECRET AND PROPRIETARY INFORMATION
+# //  WHICH IS THE PROPERTY OF MENTOR GRAPHICS CORPORATION OR ITS
+# //  LICENSORS AND IS SUBJECT TO LICENSE TERMS.
+# //
+# vsim -appendlog -l qverilog.log -lib work -vopt adder_top 
+# ** Note: (vsim-3813) Design is being optimized due to module recompilation...
+# 
+# Loading sv_std.std
+# Loading mtiUvm.uvm_pkg(fast)
+# Loading work.adder_package(fast)
+# Loading work.adder_top_sv_unit(fast)
+# Loading work.adder_top(fast)
+# Loading work.adder_intf(fast)
+# Loading mtiUvm.questa_uvm_pkg(fast)
+# Loading C:/questasim_10.1d/uvm-1.1c\win32\uvm_dpi.dll
+add wave -position insertpoint  \
+sim:/adder_top/vif/i_clk \
+sim:/adder_top/vif/i_reset_n \
+sim:/adder_top/vif/i_valid \
+sim:/adder_top/vif/i_data1 \
+sim:/adder_top/vif/i_data2 \
+sim:/adder_top/vif/o_sum
+run -all
+# ----------------------------------------------------------------
+# UVM-1.1c
+# (C) 2007-2012 Mentor Graphics Corporation
+# (C) 2007-2012 Cadence Design Systems, Inc.
+# (C) 2006-2012 Synopsys, Inc.
+# (C) 2011-2012 Cypress Semiconductor Corp.
+# ----------------------------------------------------------------
+# 
+#   ***********       IMPORTANT RELEASE NOTES         ************
+# 
+#   You are using a version of the UVM library that has been compiled
+#   with `UVM_NO_DEPRECATED undefined.
+#   See http://www.eda.org/svdb/view.php?id=3313 for more details.
+# 
+#   You are using a version of the UVM library that has been compiled
+#   with `UVM_OBJECT_MUST_HAVE_CONSTRUCTOR undefined.
+#   See http://www.eda.org/svdb/view.php?id=3770 for more details.
+# 
+#       (Specify +UVM_NO_RELNOTES to turn off this notice)
+# 
+# UVM_INFO verilog_src/questa_uvm_pkg-1.2/src/questa_uvm_pkg.sv(215) @ 0: reporter [Questa UVM] QUESTA_UVM-1.2
+# UVM_INFO verilog_src/questa_uvm_pkg-1.2/src/questa_uvm_pkg.sv(217) @ 0: reporter [Questa UVM]  questa_uvm::init(+struct)
+# UVM_INFO @ 0: reporter [RNTST] Running test adder_test_decr...
+# UVM_INFO adder_test.sv(18) @ 0: uvm_test_top [adder_test_decr] This is the Test class
+# UVM_INFO adder_test_decr.sv(20) @ 0: uvm_test_top [adder_test_decr] This is the Test Class for Decremental Sequence
+# UVM_INFO adder_environment.sv(24) @ 0: uvm_test_top.env [adder_environment] This is the Environment class
+# UVM_INFO adder_agent.sv(22) @ 0: uvm_test_top.env.agnt [adder_agent] This is the Agent class
+# UVM_INFO adder_driver.sv(17) @ 0: uvm_test_top.env.agnt.drv [adder_driver] This is the Driver class
+# UVM_INFO adder_driver.sv(20) @ 0: uvm_test_top.env.agnt.drv [adder_driver] Interface data recieved at the DRIVER
+# UVM_INFO adder_monitor.sv(20) @ 0: uvm_test_top.env.agnt.mon [adder_monitor] This is the Monitor class
+# UVM_INFO adder_monitor.sv(23) @ 0: uvm_test_top.env.agnt.mon [adder_monitor] Interface data recieved at the Monitor
+# UVM_INFO adder_sequencer.sv(17) @ 0: uvm_test_top.env.agnt.seqr [adder_sequencer] This is the Sequencer class
+# UVM_INFO adder_subscriber.sv(25) @ 0: uvm_test_top.env.sbr [adder_subscriber] This is the Subscriber class
+# UVM_INFO adder_scoreboard.sv(37) @ 0: uvm_test_top.env.scb [adder_scoreboard] This is the Scoreboard class
+# UVM_INFO adder_sequence_decr.sv(18) @ 0: uvm_test_top.env.agnt.seqr@@seq_decr [adder_sequence_decr] This is the Decremental Sequence Class-----> 
+# UVM_INFO transaction.sv(19) @ 0: reporter@@txn [txn] This is the Transaction class
+# UVM_INFO transaction.sv(19) @ 225: reporter@@txn [txn] This is the Transaction class
+# UVM_INFO adder_driver.sv(35) @ 225: uvm_test_top.env.agnt.drv [adder_driver] ---------DRIVER---------
+# ----------------------------------------------------------------------------------
+# Name                           Type      Size  Value                              
+# ----------------------------------------------------------------------------------
+# t                              txn       -     @916                               
+#   i_data1                      integral  4     'b1111                             
+#   i_data2                      integral  4     'b1111                             
+#   i_valid                      integral  1     'b0                                
+#   o_sum                        integral  1     'b0                                
+#   begin_time                   time      64    225                                
+#   depth                        int       32    'd2                                
+#   parent sequence (name)       string    8     seq_decr                           
+#   parent sequence (full name)  string    35    uvm_test_top.env.agnt.seqr.seq_decr
+#   sequencer                    string    26    uvm_test_top.env.agnt.seqr         
+# ----------------------------------------------------------------------------------
+# UVM_INFO adder_subscriber.sv(36) @ 275: uvm_test_top.env.sbr [adder_subscriber] This is the Write method from Driver to Subscriber class
+# UVM_INFO adder_scoreboard.sv(54) @ 275: uvm_test_top.env.scb [adder_scoreboard] This is the Write method from Driver to Scoreboard class
+# UVM_INFO adder_subscriber.sv(41) @ 325: uvm_test_top.env.sbr [adder_subscriber] This is the Write method from Monitor to Subscriber class
+# UVM_INFO adder_scoreboard.sv(59) @ 325: uvm_test_top.env.scb [adder_scoreboard] This is the Write method from Monitor to Scoreboard class
+# ----------------------------------------------------------------------------------
+# Name                           Type      Size  Value                              
+# ----------------------------------------------------------------------------------
+# t                              txn       -     @968                               
+#   i_data1                      integral  4     'b1111                             
+#   i_data2                      integral  4     'b1111                             
+#   i_valid                      integral  1     'b0                                
+#   o_sum                        integral  1     'b0                                
+# ----------------------------------------------------------------------------------
+# ----------------------------------------------------------------------------------
+# Name                           Type      Size  Value                              
+# ----------------------------------------------------------------------------------
+# t                              txn       -     @968                               
+#   i_data1                      integral  4     'b1111                             
+#   i_data2                      integral  4     'b1111                             
+#   i_valid                      integral  1     'b0                                
+#   o_sum                        integral  1     'b0                                
+# ----------------------------------------------------------------------------------
+# UVM_INFO transaction.sv(19) @ 325: reporter@@txn [txn] This is the Transaction class
+# UVM_ERROR adder_scoreboard.sv(79) @ 325: uvm_test_top.env.scb [uvm_test_top.env.scb] DATA IS NOT MATCHING!!!!!--> data1=15 and data1=15 is sum= 0
+# UVM_INFO adder_driver.sv(35) @ 325: uvm_test_top.env.agnt.drv [adder_driver] ---------DRIVER---------
+# ----------------------------------------------------------------------------------
+# Name                           Type      Size  Value                              
+# ----------------------------------------------------------------------------------
+# t                              txn       -     @916                               
+#   i_data1                      integral  4     'b1110                             
+#   i_data2                      integral  4     'b1110                             
+#   i_valid                      integral  1     'b0                                
+#   o_sum                        integral  1     'b0                                
+#   begin_time                   time      64    325                                
+#   end_time                     time      64    275                                
+#   depth                        int       32    'd2                                
+#   parent sequence (name)       string    8     seq_decr                           
+#   parent sequence (full name)  string    35    uvm_test_top.env.agnt.seqr.seq_decr
+#   sequencer                    string    26    uvm_test_top.env.agnt.seqr         
+# ----------------------------------------------------------------------------------
+# UVM_INFO adder_subscriber.sv(36) @ 375: uvm_test_top.env.sbr [adder_subscriber] This is the Write method from Driver to Subscriber class
+# UVM_INFO adder_scoreboard.sv(54) @ 375: uvm_test_top.env.scb [adder_scoreboard] This is the Write method from Driver to Scoreboard class
+# UVM_INFO adder_subscriber.sv(41) @ 425: uvm_test_top.env.sbr [adder_subscriber] This is the Write method from Monitor to Subscriber class
+# UVM_INFO adder_scoreboard.sv(59) @ 425: uvm_test_top.env.scb [adder_scoreboard] This is the Write method from Monitor to Scoreboard class
+# ----------------------------------------------------------------------------------
+# Name                           Type      Size  Value                              
+# ----------------------------------------------------------------------------------
+# t                              txn       -     @973                               
+#   i_data1                      integral  4     'b1110                             
+#   i_data2                      integral  4     'b1110                             
+#   i_valid                      integral  1     'b0                                
+#   o_sum                        integral  1     'b0                                
+# ----------------------------------------------------------------------------------
+# ----------------------------------------------------------------------------------
+# Name                           Type      Size  Value                              
+# ----------------------------------------------------------------------------------
+# t                              txn       -     @973                               
+#   i_data1                      integral  4     'b1110                             
+#   i_data2                      integral  4     'b1110                             
+#   i_valid                      integral  1     'b0                                
+#   o_sum                        integral  1     'b0                                
+# ----------------------------------------------------------------------------------
+# UVM_INFO transaction.sv(19) @ 425: reporter@@txn [txn] This is the Transaction class
+# UVM_ERROR adder_scoreboard.sv(79) @ 425: uvm_test_top.env.scb [uvm_test_top.env.scb] DATA IS NOT MATCHING!!!!!--> data1=14 and data1=14 is sum= 0
+# UVM_INFO adder_driver.sv(35) @ 425: uvm_test_top.env.agnt.drv [adder_driver] ---------DRIVER---------
+# ----------------------------------------------------------------------------------
+# Name                           Type      Size  Value                              
+# ----------------------------------------------------------------------------------
+# t                              txn       -     @916                               
+#   i_data1                      integral  4     'b1101                             
+#   i_data2                      integral  4     'b1101                             
+#   i_valid                      integral  1     'b0                                
+#   o_sum                        integral  1     'b0                                
+#   begin_time                   time      64    425                                
+#   end_time                     time      64    375                                
+#   depth                        int       32    'd2                                
+#   parent sequence (name)       string    8     seq_decr                           
+#   parent sequence (full name)  string    35    uvm_test_top.env.agnt.seqr.seq_decr
+#   sequencer                    string    26    uvm_test_top.env.agnt.seqr         
+# ----------------------------------------------------------------------------------
+# UVM_INFO adder_subscriber.sv(36) @ 475: uvm_test_top.env.sbr [adder_subscriber] This is the Write method from Driver to Subscriber class
+# UVM_INFO adder_scoreboard.sv(54) @ 475: uvm_test_top.env.scb [adder_scoreboard] This is the Write method from Driver to Scoreboard class
+# UVM_INFO adder_subscriber.sv(41) @ 525: uvm_test_top.env.sbr [adder_subscriber] This is the Write method from Monitor to Subscriber class
+# UVM_INFO adder_scoreboard.sv(59) @ 525: uvm_test_top.env.scb [adder_scoreboard] This is the Write method from Monitor to Scoreboard class
+# ----------------------------------------------------------------------------------
+# Name                           Type      Size  Value                              
+# ----------------------------------------------------------------------------------
+# t                              txn       -     @977                               
+#   i_data1                      integral  4     'b1101                             
+#   i_data2                      integral  4     'b1101                             
+#   i_valid                      integral  1     'b0                                
+#   o_sum                        integral  1     'b0                                
+# ----------------------------------------------------------------------------------
+# ----------------------------------------------------------------------------------
+# Name                           Type      Size  Value                              
+# ----------------------------------------------------------------------------------
+# t                              txn       -     @977                               
+#   i_data1                      integral  4     'b1101                             
+#   i_data2                      integral  4     'b1101                             
+#   i_valid                      integral  1     'b0                                
+#   o_sum                        integral  1     'b0                                
+# ----------------------------------------------------------------------------------
+# UVM_INFO transaction.sv(19) @ 525: reporter@@txn [txn] This is the Transaction class
+# UVM_ERROR adder_scoreboard.sv(79) @ 525: uvm_test_top.env.scb [uvm_test_top.env.scb] DATA IS NOT MATCHING!!!!!--> data1=13 and data1=13 is sum= 0
+# UVM_INFO adder_driver.sv(35) @ 525: uvm_test_top.env.agnt.drv [adder_driver] ---------DRIVER---------
+# ----------------------------------------------------------------------------------
+# Name                           Type      Size  Value                              
+# ----------------------------------------------------------------------------------
+# t                              txn       -     @916                               
+#   i_data1                      integral  4     'b1100                             
+#   i_data2                      integral  4     'b1100                             
+#   i_valid                      integral  1     'b0                                
+#   o_sum                        integral  1     'b0                                
+#   begin_time                   time      64    525                                
+#   end_time                     time      64    475                                
+#   depth                        int       32    'd2                                
+#   parent sequence (name)       string    8     seq_decr                           
+#   parent sequence (full name)  string    35    uvm_test_top.env.agnt.seqr.seq_decr
+#   sequencer                    string    26    uvm_test_top.env.agnt.seqr         
+# ----------------------------------------------------------------------------------
+# UVM_INFO adder_subscriber.sv(36) @ 575: uvm_test_top.env.sbr [adder_subscriber] This is the Write method from Driver to Subscriber class
+# UVM_INFO adder_scoreboard.sv(54) @ 575: uvm_test_top.env.scb [adder_scoreboard] This is the Write method from Driver to Scoreboard class
+# UVM_INFO adder_subscriber.sv(41) @ 625: uvm_test_top.env.sbr [adder_subscriber] This is the Write method from Monitor to Subscriber class
+# UVM_INFO adder_scoreboard.sv(59) @ 625: uvm_test_top.env.scb [adder_scoreboard] This is the Write method from Monitor to Scoreboard class
+# ----------------------------------------------------------------------------------
+# Name                           Type      Size  Value                              
+# ----------------------------------------------------------------------------------
+# t                              txn       -     @981                               
+#   i_data1                      integral  4     'b1100                             
+#   i_data2                      integral  4     'b1100                             
+#   i_valid                      integral  1     'b0                                
+#   o_sum                        integral  1     'b0                                
+# ----------------------------------------------------------------------------------
+# ----------------------------------------------------------------------------------
+# Name                           Type      Size  Value                              
+# ----------------------------------------------------------------------------------
+# t                              txn       -     @981                               
+#   i_data1                      integral  4     'b1100                             
+#   i_data2                      integral  4     'b1100                             
+#   i_valid                      integral  1     'b0                                
+#   o_sum                        integral  1     'b0                                
+# ----------------------------------------------------------------------------------
+# UVM_INFO transaction.sv(19) @ 625: reporter@@txn [txn] This is the Transaction class
+# UVM_ERROR adder_scoreboard.sv(79) @ 625: uvm_test_top.env.scb [uvm_test_top.env.scb] DATA IS NOT MATCHING!!!!!--> data1=12 and data1=12 is sum= 0
+# UVM_INFO adder_driver.sv(35) @ 625: uvm_test_top.env.agnt.drv [adder_driver] ---------DRIVER---------
+# ----------------------------------------------------------------------------------
+# Name                           Type      Size  Value                              
+# ----------------------------------------------------------------------------------
+# t                              txn       -     @916                               
+#   i_data1                      integral  4     'b1011                             
+#   i_data2                      integral  4     'b1011                             
+#   i_valid                      integral  1     'b0                                
+#   o_sum                        integral  1     'b0                                
+#   begin_time                   time      64    625                                
+#   end_time                     time      64    575                                
+#   depth                        int       32    'd2                                
+#   parent sequence (name)       string    8     seq_decr                           
+#   parent sequence (full name)  string    35    uvm_test_top.env.agnt.seqr.seq_decr
+#   sequencer                    string    26    uvm_test_top.env.agnt.seqr         
+# ----------------------------------------------------------------------------------
+# UVM_INFO adder_subscriber.sv(36) @ 675: uvm_test_top.env.sbr [adder_subscriber] This is the Write method from Driver to Subscriber class
+# UVM_INFO adder_scoreboard.sv(54) @ 675: uvm_test_top.env.scb [adder_scoreboard] This is the Write method from Driver to Scoreboard class
+# UVM_INFO adder_subscriber.sv(41) @ 725: uvm_test_top.env.sbr [adder_subscriber] This is the Write method from Monitor to Subscriber class
+# UVM_INFO adder_scoreboard.sv(59) @ 725: uvm_test_top.env.scb [adder_scoreboard] This is the Write method from Monitor to Scoreboard class
+# ----------------------------------------------------------------------------------
+# Name                           Type      Size  Value                              
+# ----------------------------------------------------------------------------------
+# t                              txn       -     @985                               
+#   i_data1                      integral  4     'b1011                             
+#   i_data2                      integral  4     'b1011                             
+#   i_valid                      integral  1     'b0                                
+#   o_sum                        integral  1     'b0                                
+# ----------------------------------------------------------------------------------
+# ----------------------------------------------------------------------------------
+# Name                           Type      Size  Value                              
+# ----------------------------------------------------------------------------------
+# t                              txn       -     @985                               
+#   i_data1                      integral  4     'b1011                             
+#   i_data2                      integral  4     'b1011                             
+#   i_valid                      integral  1     'b0                                
+#   o_sum                        integral  1     'b0                                
+# ----------------------------------------------------------------------------------
+# UVM_INFO transaction.sv(19) @ 725: reporter@@txn [txn] This is the Transaction class
+# UVM_ERROR adder_scoreboard.sv(79) @ 725: uvm_test_top.env.scb [uvm_test_top.env.scb] DATA IS NOT MATCHING!!!!!--> data1=11 and data1=11 is sum= 0
+# UVM_INFO adder_driver.sv(35) @ 725: uvm_test_top.env.agnt.drv [adder_driver] ---------DRIVER---------
+# ----------------------------------------------------------------------------------
+# Name                           Type      Size  Value                              
+# ----------------------------------------------------------------------------------
+# t                              txn       -     @916                               
+#   i_data1                      integral  4     'b1010                             
+#   i_data2                      integral  4     'b1010                             
+#   i_valid                      integral  1     'b0                                
+#   o_sum                        integral  1     'b0                                
+#   begin_time                   time      64    725                                
+#   end_time                     time      64    675                                
+#   depth                        int       32    'd2                                
+#   parent sequence (name)       string    8     seq_decr                           
+#   parent sequence (full name)  string    35    uvm_test_top.env.agnt.seqr.seq_decr
+#   sequencer                    string    26    uvm_test_top.env.agnt.seqr         
+# ----------------------------------------------------------------------------------
+# UVM_INFO adder_subscriber.sv(36) @ 775: uvm_test_top.env.sbr [adder_subscriber] This is the Write method from Driver to Subscriber class
+# UVM_INFO adder_scoreboard.sv(54) @ 775: uvm_test_top.env.scb [adder_scoreboard] This is the Write method from Driver to Scoreboard class
+# UVM_INFO adder_subscriber.sv(41) @ 825: uvm_test_top.env.sbr [adder_subscriber] This is the Write method from Monitor to Subscriber class
+# UVM_INFO adder_scoreboard.sv(59) @ 825: uvm_test_top.env.scb [adder_scoreboard] This is the Write method from Monitor to Scoreboard class
+# ----------------------------------------------------------------------------------
+# Name                           Type      Size  Value                              
+# ----------------------------------------------------------------------------------
+# t                              txn       -     @989                               
+#   i_data1                      integral  4     'b1010                             
+#   i_data2                      integral  4     'b1010                             
+#   i_valid                      integral  1     'b0                                
+#   o_sum                        integral  1     'b0                                
+# ----------------------------------------------------------------------------------
+# ----------------------------------------------------------------------------------
+# Name                           Type      Size  Value                              
+# ----------------------------------------------------------------------------------
+# t                              txn       -     @989                               
+#   i_data1                      integral  4     'b1010                             
+#   i_data2                      integral  4     'b1010                             
+#   i_valid                      integral  1     'b0                                
+#   o_sum                        integral  1     'b0                                
+# ----------------------------------------------------------------------------------
+# UVM_INFO transaction.sv(19) @ 825: reporter@@txn [txn] This is the Transaction class
+# UVM_ERROR adder_scoreboard.sv(79) @ 825: uvm_test_top.env.scb [uvm_test_top.env.scb] DATA IS NOT MATCHING!!!!!--> data1=10 and data1=10 is sum= 0
+# UVM_INFO adder_driver.sv(35) @ 825: uvm_test_top.env.agnt.drv [adder_driver] ---------DRIVER---------
+# ----------------------------------------------------------------------------------
+# Name                           Type      Size  Value                              
+# ----------------------------------------------------------------------------------
+# t                              txn       -     @916                               
+#   i_data1                      integral  4     'b1001                             
+#   i_data2                      integral  4     'b1001                             
+#   i_valid                      integral  1     'b0                                
+#   o_sum                        integral  1     'b0                                
+#   begin_time                   time      64    825                                
+#   end_time                     time      64    775                                
+#   depth                        int       32    'd2                                
+#   parent sequence (name)       string    8     seq_decr                           
+#   parent sequence (full name)  string    35    uvm_test_top.env.agnt.seqr.seq_decr
+#   sequencer                    string    26    uvm_test_top.env.agnt.seqr         
+# ----------------------------------------------------------------------------------
+# UVM_INFO adder_subscriber.sv(36) @ 875: uvm_test_top.env.sbr [adder_subscriber] This is the Write method from Driver to Subscriber class
+# UVM_INFO adder_scoreboard.sv(54) @ 875: uvm_test_top.env.scb [adder_scoreboard] This is the Write method from Driver to Scoreboard class
+# UVM_INFO adder_subscriber.sv(41) @ 925: uvm_test_top.env.sbr [adder_subscriber] This is the Write method from Monitor to Subscriber class
+# UVM_INFO adder_scoreboard.sv(59) @ 925: uvm_test_top.env.scb [adder_scoreboard] This is the Write method from Monitor to Scoreboard class
+# ----------------------------------------------------------------------------------
+# Name                           Type      Size  Value                              
+# ----------------------------------------------------------------------------------
+# t                              txn       -     @993                               
+#   i_data1                      integral  4     'b1001                             
+#   i_data2                      integral  4     'b1001                             
+#   i_valid                      integral  1     'b0                                
+#   o_sum                        integral  1     'b0                                
+# ----------------------------------------------------------------------------------
+# ----------------------------------------------------------------------------------
+# Name                           Type      Size  Value                              
+# ----------------------------------------------------------------------------------
+# t                              txn       -     @993                               
+#   i_data1                      integral  4     'b1001                             
+#   i_data2                      integral  4     'b1001                             
+#   i_valid                      integral  1     'b0                                
+#   o_sum                        integral  1     'b0                                
+# ----------------------------------------------------------------------------------
+# UVM_INFO transaction.sv(19) @ 925: reporter@@txn [txn] This is the Transaction class
+# UVM_ERROR adder_scoreboard.sv(79) @ 925: uvm_test_top.env.scb [uvm_test_top.env.scb] DATA IS NOT MATCHING!!!!!--> data1=9 and data1=9 is sum= 0
+# UVM_INFO adder_driver.sv(35) @ 925: uvm_test_top.env.agnt.drv [adder_driver] ---------DRIVER---------
+# ----------------------------------------------------------------------------------
+# Name                           Type      Size  Value                              
+# ----------------------------------------------------------------------------------
+# t                              txn       -     @916                               
+#   i_data1                      integral  4     'b1000                             
+#   i_data2                      integral  4     'b1000                             
+#   i_valid                      integral  1     'b0                                
+#   o_sum                        integral  1     'b0                                
+#   begin_time                   time      64    925                                
+#   end_time                     time      64    875                                
+#   depth                        int       32    'd2                                
+#   parent sequence (name)       string    8     seq_decr                           
+#   parent sequence (full name)  string    35    uvm_test_top.env.agnt.seqr.seq_decr
+#   sequencer                    string    26    uvm_test_top.env.agnt.seqr         
+# ----------------------------------------------------------------------------------
+# UVM_INFO adder_subscriber.sv(36) @ 975: uvm_test_top.env.sbr [adder_subscriber] This is the Write method from Driver to Subscriber class
+# UVM_INFO adder_scoreboard.sv(54) @ 975: uvm_test_top.env.scb [adder_scoreboard] This is the Write method from Driver to Scoreboard class
+# UVM_INFO adder_subscriber.sv(41) @ 1025: uvm_test_top.env.sbr [adder_subscriber] This is the Write method from Monitor to Subscriber class
+# UVM_INFO adder_scoreboard.sv(59) @ 1025: uvm_test_top.env.scb [adder_scoreboard] This is the Write method from Monitor to Scoreboard class
+# ----------------------------------------------------------------------------------
+# Name                           Type      Size  Value                              
+# ----------------------------------------------------------------------------------
+# t                              txn       -     @997                               
+#   i_data1                      integral  4     'b1000                             
+#   i_data2                      integral  4     'b1000                             
+#   i_valid                      integral  1     'b0                                
+#   o_sum                        integral  1     'b0                                
+# ----------------------------------------------------------------------------------
+# ----------------------------------------------------------------------------------
+# Name                           Type      Size  Value                              
+# ----------------------------------------------------------------------------------
+# t                              txn       -     @997                               
+#   i_data1                      integral  4     'b1000                             
+#   i_data2                      integral  4     'b1000                             
+#   i_valid                      integral  1     'b0                                
+#   o_sum                        integral  1     'b0                                
+# ----------------------------------------------------------------------------------
+# UVM_INFO transaction.sv(19) @ 1025: reporter@@txn [txn] This is the Transaction class
+# UVM_INFO adder_scoreboard.sv(77) @ 1025: uvm_test_top.env.scb [uvm_test_top.env.scb] DATA IS MATCHING--> data1=8 and data1=8 is sum= 0
+# UVM_INFO adder_driver.sv(35) @ 1025: uvm_test_top.env.agnt.drv [adder_driver] ---------DRIVER---------
+# ----------------------------------------------------------------------------------
+# Name                           Type      Size  Value                              
+# ----------------------------------------------------------------------------------
+# t                              txn       -     @916                               
+#   i_data1                      integral  4     'b111                              
+#   i_data2                      integral  4     'b111                              
+#   i_valid                      integral  1     'b0                                
+#   o_sum                        integral  1     'b0                                
+#   begin_time                   time      64    1025                               
+#   end_time                     time      64    975                                
+#   depth                        int       32    'd2                                
+#   parent sequence (name)       string    8     seq_decr                           
+#   parent sequence (full name)  string    35    uvm_test_top.env.agnt.seqr.seq_decr
+#   sequencer                    string    26    uvm_test_top.env.agnt.seqr         
+# ----------------------------------------------------------------------------------
+# UVM_INFO adder_subscriber.sv(36) @ 1075: uvm_test_top.env.sbr [adder_subscriber] This is the Write method from Driver to Subscriber class
+# UVM_INFO adder_scoreboard.sv(54) @ 1075: uvm_test_top.env.scb [adder_scoreboard] This is the Write method from Driver to Scoreboard class
+# UVM_INFO adder_subscriber.sv(41) @ 1125: uvm_test_top.env.sbr [adder_subscriber] This is the Write method from Monitor to Subscriber class
+# UVM_INFO adder_scoreboard.sv(59) @ 1125: uvm_test_top.env.scb [adder_scoreboard] This is the Write method from Monitor to Scoreboard class
+# ----------------------------------------------------------------------------------
+# Name                           Type      Size  Value                              
+# ----------------------------------------------------------------------------------
+# t                              txn       -     @1001                              
+#   i_data1                      integral  4     'b111                              
+#   i_data2                      integral  4     'b111                              
+#   i_valid                      integral  1     'b0                                
+#   o_sum                        integral  1     'b0                                
+# ----------------------------------------------------------------------------------
+# ----------------------------------------------------------------------------------
+# Name                           Type      Size  Value                              
+# ----------------------------------------------------------------------------------
+# t                              txn       -     @1001                              
+#   i_data1                      integral  4     'b111                              
+#   i_data2                      integral  4     'b111                              
+#   i_valid                      integral  1     'b0                                
+#   o_sum                        integral  1     'b0                                
+# ----------------------------------------------------------------------------------
+# UVM_INFO transaction.sv(19) @ 1125: reporter@@txn [txn] This is the Transaction class
+# UVM_ERROR adder_scoreboard.sv(79) @ 1125: uvm_test_top.env.scb [uvm_test_top.env.scb] DATA IS NOT MATCHING!!!!!--> data1=7 and data1=7 is sum= 0
+# UVM_INFO adder_driver.sv(35) @ 1125: uvm_test_top.env.agnt.drv [adder_driver] ---------DRIVER---------
+# ----------------------------------------------------------------------------------
+# Name                           Type      Size  Value                              
+# ----------------------------------------------------------------------------------
+# t                              txn       -     @916                               
+#   i_data1                      integral  4     'b110                              
+#   i_data2                      integral  4     'b110                              
+#   i_valid                      integral  1     'b0                                
+#   o_sum                        integral  1     'b0                                
+#   begin_time                   time      64    1125                               
+#   end_time                     time      64    1075                               
+#   depth                        int       32    'd2                                
+#   parent sequence (name)       string    8     seq_decr                           
+#   parent sequence (full name)  string    35    uvm_test_top.env.agnt.seqr.seq_decr
+#   sequencer                    string    26    uvm_test_top.env.agnt.seqr         
+# ----------------------------------------------------------------------------------
+# UVM_INFO adder_subscriber.sv(36) @ 1175: uvm_test_top.env.sbr [adder_subscriber] This is the Write method from Driver to Subscriber class
+# UVM_INFO adder_scoreboard.sv(54) @ 1175: uvm_test_top.env.scb [adder_scoreboard] This is the Write method from Driver to Scoreboard class
+# UVM_INFO adder_subscriber.sv(41) @ 1225: uvm_test_top.env.sbr [adder_subscriber] This is the Write method from Monitor to Subscriber class
+# UVM_INFO adder_scoreboard.sv(59) @ 1225: uvm_test_top.env.scb [adder_scoreboard] This is the Write method from Monitor to Scoreboard class
+# ----------------------------------------------------------------------------------
+# Name                           Type      Size  Value                              
+# ----------------------------------------------------------------------------------
+# t                              txn       -     @1005                              
+#   i_data1                      integral  4     'b110                              
+#   i_data2                      integral  4     'b110                              
+#   i_valid                      integral  1     'b0                                
+#   o_sum                        integral  1     'b0                                
+# ----------------------------------------------------------------------------------
+# ----------------------------------------------------------------------------------
+# Name                           Type      Size  Value                              
+# ----------------------------------------------------------------------------------
+# t                              txn       -     @1005                              
+#   i_data1                      integral  4     'b110                              
+#   i_data2                      integral  4     'b110                              
+#   i_valid                      integral  1     'b0                                
+#   o_sum                        integral  1     'b0                                
+# ----------------------------------------------------------------------------------
+# UVM_INFO transaction.sv(19) @ 1225: reporter@@txn [txn] This is the Transaction class
+# UVM_ERROR adder_scoreboard.sv(79) @ 1225: uvm_test_top.env.scb [uvm_test_top.env.scb] DATA IS NOT MATCHING!!!!!--> data1=6 and data1=6 is sum= 0
+# UVM_INFO adder_driver.sv(35) @ 1225: uvm_test_top.env.agnt.drv [adder_driver] ---------DRIVER---------
+# ----------------------------------------------------------------------------------
+# Name                           Type      Size  Value                              
+# ----------------------------------------------------------------------------------
+# t                              txn       -     @916                               
+#   i_data1                      integral  4     'b101                              
+#   i_data2                      integral  4     'b101                              
+#   i_valid                      integral  1     'b0                                
+#   o_sum                        integral  1     'b0                                
+#   begin_time                   time      64    1225                               
+#   end_time                     time      64    1175                               
+#   depth                        int       32    'd2                                
+#   parent sequence (name)       string    8     seq_decr                           
+#   parent sequence (full name)  string    35    uvm_test_top.env.agnt.seqr.seq_decr
+#   sequencer                    string    26    uvm_test_top.env.agnt.seqr         
+# ----------------------------------------------------------------------------------
+# UVM_INFO adder_subscriber.sv(36) @ 1275: uvm_test_top.env.sbr [adder_subscriber] This is the Write method from Driver to Subscriber class
+# UVM_INFO adder_scoreboard.sv(54) @ 1275: uvm_test_top.env.scb [adder_scoreboard] This is the Write method from Driver to Scoreboard class
+# UVM_INFO adder_subscriber.sv(41) @ 1325: uvm_test_top.env.sbr [adder_subscriber] This is the Write method from Monitor to Subscriber class
+# UVM_INFO adder_scoreboard.sv(59) @ 1325: uvm_test_top.env.scb [adder_scoreboard] This is the Write method from Monitor to Scoreboard class
+# ----------------------------------------------------------------------------------
+# Name                           Type      Size  Value                              
+# ----------------------------------------------------------------------------------
+# t                              txn       -     @1009                              
+#   i_data1                      integral  4     'b101                              
+#   i_data2                      integral  4     'b101                              
+#   i_valid                      integral  1     'b0                                
+#   o_sum                        integral  1     'b0                                
+# ----------------------------------------------------------------------------------
+# ----------------------------------------------------------------------------------
+# Name                           Type      Size  Value                              
+# ----------------------------------------------------------------------------------
+# t                              txn       -     @1009                              
+#   i_data1                      integral  4     'b101                              
+#   i_data2                      integral  4     'b101                              
+#   i_valid                      integral  1     'b0                                
+#   o_sum                        integral  1     'b0                                
+# ----------------------------------------------------------------------------------
+# UVM_INFO transaction.sv(19) @ 1325: reporter@@txn [txn] This is the Transaction class
+# UVM_ERROR adder_scoreboard.sv(79) @ 1325: uvm_test_top.env.scb [uvm_test_top.env.scb] DATA IS NOT MATCHING!!!!!--> data1=5 and data1=5 is sum= 0
+# UVM_INFO adder_driver.sv(35) @ 1325: uvm_test_top.env.agnt.drv [adder_driver] ---------DRIVER---------
+# ----------------------------------------------------------------------------------
+# Name                           Type      Size  Value                              
+# ----------------------------------------------------------------------------------
+# t                              txn       -     @916                               
+#   i_data1                      integral  4     'b100                              
+#   i_data2                      integral  4     'b100                              
+#   i_valid                      integral  1     'b0                                
+#   o_sum                        integral  1     'b0                                
+#   begin_time                   time      64    1325                               
+#   end_time                     time      64    1275                               
+#   depth                        int       32    'd2                                
+#   parent sequence (name)       string    8     seq_decr                           
+#   parent sequence (full name)  string    35    uvm_test_top.env.agnt.seqr.seq_decr
+#   sequencer                    string    26    uvm_test_top.env.agnt.seqr         
+# ----------------------------------------------------------------------------------
+# UVM_INFO adder_subscriber.sv(36) @ 1375: uvm_test_top.env.sbr [adder_subscriber] This is the Write method from Driver to Subscriber class
+# UVM_INFO adder_scoreboard.sv(54) @ 1375: uvm_test_top.env.scb [adder_scoreboard] This is the Write method from Driver to Scoreboard class
+# UVM_INFO adder_subscriber.sv(41) @ 1425: uvm_test_top.env.sbr [adder_subscriber] This is the Write method from Monitor to Subscriber class
+# UVM_INFO adder_scoreboard.sv(59) @ 1425: uvm_test_top.env.scb [adder_scoreboard] This is the Write method from Monitor to Scoreboard class
+# ----------------------------------------------------------------------------------
+# Name                           Type      Size  Value                              
+# ----------------------------------------------------------------------------------
+# t                              txn       -     @1013                              
+#   i_data1                      integral  4     'b100                              
+#   i_data2                      integral  4     'b100                              
+#   i_valid                      integral  1     'b0                                
+#   o_sum                        integral  1     'b0                                
+# ----------------------------------------------------------------------------------
+# ----------------------------------------------------------------------------------
+# Name                           Type      Size  Value                              
+# ----------------------------------------------------------------------------------
+# t                              txn       -     @1013                              
+#   i_data1                      integral  4     'b100                              
+#   i_data2                      integral  4     'b100                              
+#   i_valid                      integral  1     'b0                                
+#   o_sum                        integral  1     'b0                                
+# ----------------------------------------------------------------------------------
+# UVM_INFO transaction.sv(19) @ 1425: reporter@@txn [txn] This is the Transaction class
+# UVM_ERROR adder_scoreboard.sv(79) @ 1425: uvm_test_top.env.scb [uvm_test_top.env.scb] DATA IS NOT MATCHING!!!!!--> data1=4 and data1=4 is sum= 0
+# UVM_INFO adder_driver.sv(35) @ 1425: uvm_test_top.env.agnt.drv [adder_driver] ---------DRIVER---------
+# ----------------------------------------------------------------------------------
+# Name                           Type      Size  Value                              
+# ----------------------------------------------------------------------------------
+# t                              txn       -     @916                               
+#   i_data1                      integral  4     'b11                               
+#   i_data2                      integral  4     'b11                               
+#   i_valid                      integral  1     'b0                                
+#   o_sum                        integral  1     'b0                                
+#   begin_time                   time      64    1425                               
+#   end_time                     time      64    1375                               
+#   depth                        int       32    'd2                                
+#   parent sequence (name)       string    8     seq_decr                           
+#   parent sequence (full name)  string    35    uvm_test_top.env.agnt.seqr.seq_decr
+#   sequencer                    string    26    uvm_test_top.env.agnt.seqr         
+# ----------------------------------------------------------------------------------
+# UVM_INFO adder_subscriber.sv(36) @ 1475: uvm_test_top.env.sbr [adder_subscriber] This is the Write method from Driver to Subscriber class
+# UVM_INFO adder_scoreboard.sv(54) @ 1475: uvm_test_top.env.scb [adder_scoreboard] This is the Write method from Driver to Scoreboard class
+# UVM_INFO adder_subscriber.sv(41) @ 1525: uvm_test_top.env.sbr [adder_subscriber] This is the Write method from Monitor to Subscriber class
+# UVM_INFO adder_scoreboard.sv(59) @ 1525: uvm_test_top.env.scb [adder_scoreboard] This is the Write method from Monitor to Scoreboard class
+# ----------------------------------------------------------------------------------
+# Name                           Type      Size  Value                              
+# ----------------------------------------------------------------------------------
+# t                              txn       -     @1017                              
+#   i_data1                      integral  4     'b11                               
+#   i_data2                      integral  4     'b11                               
+#   i_valid                      integral  1     'b0                                
+#   o_sum                        integral  1     'b0                                
+# ----------------------------------------------------------------------------------
+# ----------------------------------------------------------------------------------
+# Name                           Type      Size  Value                              
+# ----------------------------------------------------------------------------------
+# t                              txn       -     @1017                              
+#   i_data1                      integral  4     'b11                               
+#   i_data2                      integral  4     'b11                               
+#   i_valid                      integral  1     'b0                                
+#   o_sum                        integral  1     'b0                                
+# ----------------------------------------------------------------------------------
+# UVM_INFO transaction.sv(19) @ 1525: reporter@@txn [txn] This is the Transaction class
+# UVM_ERROR adder_scoreboard.sv(79) @ 1525: uvm_test_top.env.scb [uvm_test_top.env.scb] DATA IS NOT MATCHING!!!!!--> data1=3 and data1=3 is sum= 0
+# UVM_INFO adder_driver.sv(35) @ 1525: uvm_test_top.env.agnt.drv [adder_driver] ---------DRIVER---------
+# ----------------------------------------------------------------------------------
+# Name                           Type      Size  Value                              
+# ----------------------------------------------------------------------------------
+# t                              txn       -     @916                               
+#   i_data1                      integral  4     'b10                               
+#   i_data2                      integral  4     'b10                               
+#   i_valid                      integral  1     'b0                                
+#   o_sum                        integral  1     'b0                                
+#   begin_time                   time      64    1525                               
+#   end_time                     time      64    1475                               
+#   depth                        int       32    'd2                                
+#   parent sequence (name)       string    8     seq_decr                           
+#   parent sequence (full name)  string    35    uvm_test_top.env.agnt.seqr.seq_decr
+#   sequencer                    string    26    uvm_test_top.env.agnt.seqr         
+# ----------------------------------------------------------------------------------
+# UVM_INFO adder_subscriber.sv(36) @ 1575: uvm_test_top.env.sbr [adder_subscriber] This is the Write method from Driver to Subscriber class
+# UVM_INFO adder_scoreboard.sv(54) @ 1575: uvm_test_top.env.scb [adder_scoreboard] This is the Write method from Driver to Scoreboard class
+# UVM_INFO adder_subscriber.sv(41) @ 1625: uvm_test_top.env.sbr [adder_subscriber] This is the Write method from Monitor to Subscriber class
+# UVM_INFO adder_scoreboard.sv(59) @ 1625: uvm_test_top.env.scb [adder_scoreboard] This is the Write method from Monitor to Scoreboard class
+# ----------------------------------------------------------------------------------
+# Name                           Type      Size  Value                              
+# ----------------------------------------------------------------------------------
+# t                              txn       -     @1021                              
+#   i_data1                      integral  4     'b10                               
+#   i_data2                      integral  4     'b10                               
+#   i_valid                      integral  1     'b0                                
+#   o_sum                        integral  1     'b0                                
+# ----------------------------------------------------------------------------------
+# ----------------------------------------------------------------------------------
+# Name                           Type      Size  Value                              
+# ----------------------------------------------------------------------------------
+# t                              txn       -     @1021                              
+#   i_data1                      integral  4     'b10                               
+#   i_data2                      integral  4     'b10                               
+#   i_valid                      integral  1     'b0                                
+#   o_sum                        integral  1     'b0                                
+# ----------------------------------------------------------------------------------
+# UVM_INFO transaction.sv(19) @ 1625: reporter@@txn [txn] This is the Transaction class
+# UVM_ERROR adder_scoreboard.sv(79) @ 1625: uvm_test_top.env.scb [uvm_test_top.env.scb] DATA IS NOT MATCHING!!!!!--> data1=2 and data1=2 is sum= 0
+# UVM_INFO adder_driver.sv(35) @ 1625: uvm_test_top.env.agnt.drv [adder_driver] ---------DRIVER---------
+# ----------------------------------------------------------------------------------
+# Name                           Type      Size  Value                              
+# ----------------------------------------------------------------------------------
+# t                              txn       -     @916                               
+#   i_data1                      integral  4     'b1                                
+#   i_data2                      integral  4     'b1                                
+#   i_valid                      integral  1     'b0                                
+#   o_sum                        integral  1     'b0                                
+#   begin_time                   time      64    1625                               
+#   end_time                     time      64    1575                               
+#   depth                        int       32    'd2                                
+#   parent sequence (name)       string    8     seq_decr                           
+#   parent sequence (full name)  string    35    uvm_test_top.env.agnt.seqr.seq_decr
+#   sequencer                    string    26    uvm_test_top.env.agnt.seqr         
+# ----------------------------------------------------------------------------------
+# UVM_INFO adder_subscriber.sv(36) @ 1675: uvm_test_top.env.sbr [adder_subscriber] This is the Write method from Driver to Subscriber class
+# UVM_INFO adder_scoreboard.sv(54) @ 1675: uvm_test_top.env.scb [adder_scoreboard] This is the Write method from Driver to Scoreboard class
+# UVM_INFO adder_subscriber.sv(41) @ 1725: uvm_test_top.env.sbr [adder_subscriber] This is the Write method from Monitor to Subscriber class
+# UVM_INFO adder_scoreboard.sv(59) @ 1725: uvm_test_top.env.scb [adder_scoreboard] This is the Write method from Monitor to Scoreboard class
+# ----------------------------------------------------------------------------------
+# Name                           Type      Size  Value                              
+# ----------------------------------------------------------------------------------
+# t                              txn       -     @1025                              
+#   i_data1                      integral  4     'b1                                
+#   i_data2                      integral  4     'b1                                
+#   i_valid                      integral  1     'b0                                
+#   o_sum                        integral  1     'b0                                
+# ----------------------------------------------------------------------------------
+# ----------------------------------------------------------------------------------
+# Name                           Type      Size  Value                              
+# ----------------------------------------------------------------------------------
+# t                              txn       -     @1025                              
+#   i_data1                      integral  4     'b1                                
+#   i_data2                      integral  4     'b1                                
+#   i_valid                      integral  1     'b0                                
+#   o_sum                        integral  1     'b0                                
+# ----------------------------------------------------------------------------------
+# UVM_INFO transaction.sv(19) @ 1725: reporter@@txn [txn] This is the Transaction class
+# UVM_ERROR adder_scoreboard.sv(79) @ 1725: uvm_test_top.env.scb [uvm_test_top.env.scb] DATA IS NOT MATCHING!!!!!--> data1=1 and data1=1 is sum= 0
+# UVM_INFO adder_driver.sv(35) @ 1725: uvm_test_top.env.agnt.drv [adder_driver] ---------DRIVER---------
+# ----------------------------------------------------------------------------------
+# Name                           Type      Size  Value                              
+# ----------------------------------------------------------------------------------
+# t                              txn       -     @916                               
+#   i_data1                      integral  4     'b0                                
+#   i_data2                      integral  4     'b0                                
+#   i_valid                      integral  1     'b0                                
+#   o_sum                        integral  1     'b0                                
+#   begin_time                   time      64    1725                               
+#   end_time                     time      64    1675                               
+#   depth                        int       32    'd2                                
+#   parent sequence (name)       string    8     seq_decr                           
+#   parent sequence (full name)  string    35    uvm_test_top.env.agnt.seqr.seq_decr
+#   sequencer                    string    26    uvm_test_top.env.agnt.seqr         
+# ----------------------------------------------------------------------------------
+# UVM_INFO adder_subscriber.sv(36) @ 1775: uvm_test_top.env.sbr [adder_subscriber] This is the Write method from Driver to Subscriber class
+# UVM_INFO adder_scoreboard.sv(54) @ 1775: uvm_test_top.env.scb [adder_scoreboard] This is the Write method from Driver to Scoreboard class
+# UVM_INFO adder_sequence_decr.sv(33) @ 1775: uvm_test_top.env.agnt.seqr@@seq_decr [] ---------- Decrement Sequence---------
+# ----------------------------------------------------------------------------------
+# Name                           Type      Size  Value                              
+# ----------------------------------------------------------------------------------
+# t                              txn       -     @916                               
+#   i_data1                      integral  4     'b0                                
+#   i_data2                      integral  4     'b0                                
+#   i_valid                      integral  1     'b0                                
+#   o_sum                        integral  1     'b0                                
+#   begin_time                   time      64    1725                               
+#   end_time                     time      64    1775                               
+#   depth                        int       32    'd2                                
+#   parent sequence (name)       string    8     seq_decr                           
+#   parent sequence (full name)  string    35    uvm_test_top.env.agnt.seqr.seq_decr
+#   sequencer                    string    26    uvm_test_top.env.agnt.seqr         
+# ----------------------------------------------------------------------------------
+# UVM_INFO adder_subscriber.sv(41) @ 1825: uvm_test_top.env.sbr [adder_subscriber] This is the Write method from Monitor to Subscriber class
+# UVM_INFO adder_scoreboard.sv(59) @ 1825: uvm_test_top.env.scb [adder_scoreboard] This is the Write method from Monitor to Scoreboard class
+# ----------------------------------------------------------------------------------
+# Name                           Type      Size  Value                              
+# ----------------------------------------------------------------------------------
+# t                              txn       -     @1029                              
+#   i_data1                      integral  4     'b0                                
+#   i_data2                      integral  4     'b0                                
+#   i_valid                      integral  1     'b0                                
+#   o_sum                        integral  1     'b0                                
+# ----------------------------------------------------------------------------------
+# ----------------------------------------------------------------------------------
+# Name                           Type      Size  Value                              
+# ----------------------------------------------------------------------------------
+# t                              txn       -     @1029                              
+#   i_data1                      integral  4     'b0                                
+#   i_data2                      integral  4     'b0                                
+#   i_valid                      integral  1     'b0                                
+#   o_sum                        integral  1     'b0                                
+# ----------------------------------------------------------------------------------
+# UVM_INFO transaction.sv(19) @ 1825: reporter@@txn [txn] This is the Transaction class
+# UVM_INFO adder_scoreboard.sv(77) @ 1825: uvm_test_top.env.scb [uvm_test_top.env.scb] DATA IS MATCHING--> data1=0 and data1=0 is sum= 0
+# UVM_INFO verilog_src/uvm-1.1c/src/base/uvm_objection.svh(1121) @ 1875: reporter [TEST_DONE] 'run' phase is ready to proceed to the 'extract' phase
+# UVM_INFO adder_sequencer.sv(22) @ 1875: uvm_test_top.env.agnt.seqr [adder_sequencer] The value of Integer i is 5
+# 
+# --- UVM Report Summary ---
+# 
+# ** Report counts by severity
+# UVM_INFO :  118
+# UVM_WARNING :    0
+# UVM_ERROR :   14
+# UVM_FATAL :    0
+# ** Report counts by id
+# []     1
+# [Questa UVM]     2
+# [RNTST]     1
+# [TEST_DONE]     1
+# [adder_agent]     1
+# [adder_driver]    18
+# [adder_environment]     1
+# [adder_monitor]     2
+# [adder_scoreboard]    33
+# [adder_sequence_decr]     1
+# [adder_sequencer]     2
+# [adder_subscriber]    33
+# [adder_test_decr]     2
+# [txn]    18
+# [uvm_test_top.env.scb]    16
+# ** Note: $finish    : C:/questasim_10.1d/win32/../verilog_src/uvm-1.1c/src/base/uvm_root.svh(427)
+#    Time: 1875 ns  Iteration: 53  Instance: /adder_top
+# 1
+# Break in Task uvm_pkg/uvm_root::run_test at C:/questasim_10.1d/win32/../verilog_src/uvm-1.1c/src/base/uvm_root.svh line 427

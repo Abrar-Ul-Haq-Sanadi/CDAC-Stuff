@@ -1,0 +1,98 @@
+QuestaSim qverilog 10.1d Compiler 2012.11 Nov  1 2012
+C:\questasim_10.1d\win32\qverilog.exe .\Top.sv 
+** Note: (qverilog-2286) Using implicit +incdir+C:/questasim_10.1d/uvm-1.1c/../verilog_src/uvm-1.1c/src from import uvm_pkg
+-- Compiling package Top_sv_unit
+-- Importing package mtiUvm.uvm_pkg (uvm-1.1c Built-in)
+-- Compiling module test_top
+
+Top level modules:
+	test_top
++ C:\questasim_10.1d\win32/vsim -lib work test_top -c -do "run -all; quit -f" -appendlog -l qverilog.log -vopt
+# vsim -appendlog -do {run -all; quit -f} -l qverilog.log -lib work -c -vopt test_top 
+# ** Note: (vsim-3813) Design is being optimized due to module recompilation...
+# 
+# //  Questa Sim
+# //  Version 10.1d win32 Nov  1 2012
+# //
+# //  Copyright 1991-2012 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  THIS WORK CONTAINS TRADE SECRET AND PROPRIETARY INFORMATION
+# //  WHICH IS THE PROPERTY OF MENTOR GRAPHICS CORPORATION OR ITS
+# //  LICENSORS AND IS SUBJECT TO LICENSE TERMS.
+# //
+# Loading sv_std.std
+# Loading mtiUvm.uvm_pkg(fast)
+# Loading work.Top_sv_unit(fast)
+# Loading work.test_top(fast)
+# Loading mtiUvm.questa_uvm_pkg(fast)
+# Loading C:/questasim_10.1d/uvm-1.1c\win32\uvm_dpi.dll
+# run -all 
+# ----------------------------------------------------------------
+# UVM-1.1c
+# (C) 2007-2012 Mentor Graphics Corporation
+# (C) 2007-2012 Cadence Design Systems, Inc.
+# (C) 2006-2012 Synopsys, Inc.
+# (C) 2011-2012 Cypress Semiconductor Corp.
+# ----------------------------------------------------------------
+# 
+#   ***********       IMPORTANT RELEASE NOTES         ************
+# 
+#   You are using a version of the UVM library that has been compiled
+#   with `UVM_NO_DEPRECATED undefined.
+#   See http://www.eda.org/svdb/view.php?id=3313 for more details.
+# 
+#   You are using a version of the UVM library that has been compiled
+#   with `UVM_OBJECT_MUST_HAVE_CONSTRUCTOR undefined.
+#   See http://www.eda.org/svdb/view.php?id=3770 for more details.
+# 
+#       (Specify +UVM_NO_RELNOTES to turn off this notice)
+# 
+# UVM_INFO verilog_src/questa_uvm_pkg-1.2/src/questa_uvm_pkg.sv(215) @ 0: reporter [Questa UVM] QUESTA_UVM-1.2
+# UVM_INFO verilog_src/questa_uvm_pkg-1.2/src/questa_uvm_pkg.sv(217) @ 0: reporter [Questa UVM]  questa_uvm::init(+struct)
+# UVM_INFO @ 0: reporter [RNTST] Running test component_B...
+# This is the Build Phase of component B
+# UVM_INFO Component_A.sv(33) @ 0: uvm_test_top.comp_a [comp_a] The received_data is 10
+# UVM_INFO Component_A.sv(34) @ 0: uvm_test_top.comp_a [component_A] The received_string is Abrar_printed
+# UVM_INFO Component_A.sv(38) @ 0: uvm_test_top.comp_a [component_A] This is the Build Phase of component A
+# UVM_INFO @ 0: reporter [UVMTOP] UVM testbench topology:
+# --------------------------------------
+# Name          Type         Size  Value
+# --------------------------------------
+# uvm_test_top  component_B  -     @503 
+#   comp_a      component_A  -     @511 
+# --------------------------------------
+# 
+# UVM_INFO Component_A.sv(47) @ 0: uvm_test_top.comp_a [comp_a] This is the Connect Phase component A
+# UVM_INFO Component_B.sv(30) @ 0: uvm_test_top [component_B] This is the Connect Phase component B
+# UVM_INFO Component_A.sv(57) @ 0: uvm_test_top.comp_a [component_A] This is the end Elaboration Phase component A
+# This is the End of Elaboration Phase component B
+# UVM_INFO Component_A.sv(68) @ 0: uvm_test_top.comp_a [uvm_test_top.comp_a] This is the Start Of Simulaiton Phase component A
+# This is the Start of Simulaiton Phase component B
+# This is the Run Phase component B
+# UVM_INFO Component_A.sv(78) @ 0: uvm_test_top.comp_a [component_A] This is the Run Phase component A
+# UVM_WARNING Component_A.sv(89) @ 0: uvm_test_top.comp_a [comp_a] This is the Extract Phase component A
+# This is the Extract of Elaboration Phase component B
+# UVM_WARNING Component_A.sv(97) @ 0: uvm_test_top.comp_a [uvm_test_top.comp_a] This is the Check Phase component A
+# This is the Check Phase component B
+# This is the Report Phase component B
+# This is the Final Phase component B
+# UVM_ERROR Component_A.sv(116) @ 0: uvm_test_top.comp_a [component_A] This is the Final Phase component A
+# 
+# --- UVM Report Summary ---
+# 
+# ** Report counts by severity
+# UVM_INFO :   12
+# UVM_WARNING :    2
+# UVM_ERROR :    1
+# UVM_FATAL :    0
+# ** Report counts by id
+# [Questa UVM]     2
+# [RNTST]     1
+# [UVMTOP]     1
+# [comp_a]     3
+# [component_A]     5
+# [component_B]     1
+# [uvm_test_top.comp_a]     2
+# ** Note: $finish    : C:/questasim_10.1d/win32/../verilog_src/uvm-1.1c/src/base/uvm_root.svh(427)
+#    Time: 0 ns  Iteration: 215  Instance: /test_top

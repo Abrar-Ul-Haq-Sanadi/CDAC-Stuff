@@ -1,0 +1,32 @@
+QuestaSim qverilog 10.1d Compiler 2012.11 Nov  1 2012
+C:\questasim_10.1d\win32\qverilog.exe .\Uvm_phases.sv 
+** Note: (qverilog-2286) Using implicit +incdir+C:/questasim_10.1d/uvm-1.1c/../verilog_src/uvm-1.1c/src from import uvm_pkg
+-- Compiling package Uvm_phases_sv_unit
+-- Importing package mtiUvm.uvm_pkg (uvm-1.1c Built-in)
+** Error: .\Uvm_phases.sv(42): Unresolved reference to 'pre_reset'
+** Error: .\Uvm_phases.sv(47): Unresolved reference to 'reset'
+** Error: .\Uvm_phases.sv(52): Unresolved reference to 'post_reset'
+** Error: .\Uvm_phases.sv(57): Unresolved reference to 'pre_configure'
+** Error: .\Uvm_phases.sv(62): Unresolved reference to 'configure'
+** Error: .\Uvm_phases.sv(67): Unresolved reference to 'post_configure'
+** Error: .\Uvm_phases.sv(72): Unresolved reference to 'pre_main'
+** Error: .\Uvm_phases.sv(77): Unresolved reference to 'main'
+** Error: .\Uvm_phases.sv(82): Unresolved reference to 'post_main'
+** Error: .\Uvm_phases.sv(87): Unresolved reference to 'pre_shutdown'
+** Error: .\Uvm_phases.sv(92): Unresolved reference to 'shutdown'
+** Error: .\Uvm_phases.sv(97): Unresolved reference to 'post_shutdown'
+** Error: .\Uvm_phases.sv(102): Task 'extract_phase' in subclass 'component' cannot override function in superclass 'uvm_component'
+-- Compiling module test
+** Error: .\Uvm_phases.sv(42): Unresolved reference to 'pre_reset'
+** Error: .\Uvm_phases.sv(47): Unresolved reference to 'reset'
+** Error: .\Uvm_phases.sv(52): Unresolved reference to 'post_reset'
+** Error: .\Uvm_phases.sv(57): Unresolved reference to 'pre_configure'
+** Error: .\Uvm_phases.sv(62): Unresolved reference to 'configure'
+** Error: .\Uvm_phases.sv(67): Unresolved reference to 'post_configure'
+** Error: .\Uvm_phases.sv(72): Unresolved reference to 'pre_main'
+** Error: .\Uvm_phases.sv(77): Unresolved reference to 'main'
+** Error: .\Uvm_phases.sv(82): Unresolved reference to 'post_main'
+** Error: .\Uvm_phases.sv(87): Unresolved reference to 'pre_shutdown'
+** Error: .\Uvm_phases.sv(92): Unresolved reference to 'shutdown'
+** Error: .\Uvm_phases.sv(97): Unresolved reference to 'post_shutdown'
+** Error: .\Uvm_phases.sv(102): Task 'extract_phase' in subclass 'component' cannot override function in superclass 'uvm_component'

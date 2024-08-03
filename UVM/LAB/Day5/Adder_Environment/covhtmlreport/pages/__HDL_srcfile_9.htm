@@ -1,0 +1,45 @@
+
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+  <title>Questa Coverage Report</title>
+  <link rel="StyleSheet" media="screen" href="../css/hdl2html.css"/>
+</head>
+<body id="hdl2html">
+  <tt><a name="1"/><span style="color:red">%s%%s%%s%%s%%s%1%s%%s%</span><span class="comment">//%s%this%s%is%s%the%s%test%s%class</span><br/>
+<a name="2"/><span style="color:red">%s%%s%%s%%s%%s%2%s%%s%</span><br/>
+<a name="3"/><span style="color:red">%s%%s%%s%%s%%s%3%s%%s%</span><span class="keyword">class</span>%s%adder_test%s%<span class="keyword">extends</span>%s%uvm_test;<br/>
+<a name="4"/><span style="color:red">%s%%s%%s%%s%%s%4%s%%s%</span>%t%`uvm_component_utils(adder_test)<br/>
+<a name="5"/><span style="color:red">%s%%s%%s%%s%%s%5%s%%s%</span><br/>
+<a name="6"/><span style="color:red">%s%%s%%s%%s%%s%6%s%%s%</span>%t%adder_environment%s%env;%t%%t%%t%%t%%t%%t%%t%%t%%t%%t%<span class="comment">//%s%this%s%(env)%s%is%s%the%s%handle%s%of%s%the%s%nested%s%environment%s%class</span><br/>
+<a name="7"/><span style="color:red">%s%%s%%s%%s%%s%7%s%%s%</span>%t%adder_sequence%s%seq;%t%%t%%t%%t%%t%%t%%t%<span class="comment">//nested%s%class%s%adder_sequence%s%with%s%handle%s%seq</span><br/>
+<a name="8"/><span style="color:red">%s%%s%%s%%s%%s%8%s%%s%</span><br/>
+<a name="9"/><span style="color:red">%s%%s%%s%%s%%s%9%s%%s%</span>%t%<span class="comment">//default%s%constructor</span><br/>
+<a name="10"/><span style="color:red">%s%%s%%s%%s%10%s%%s%</span>%t%<span class="keyword">function</span>%s%<span class="keyword">new</span>(<span class="keyword">string</span>%s%name%s%=%s%<span class="literal">""</span>,%s%uvm_component%s%parent%s%);<br/>
+<a name="11"/><span style="color:red">%s%%s%%s%%s%11%s%%s%</span>%t%%t%<span class="keyword">super</span>.<span class="keyword">new</span>(name,%s%parent);<br/>
+<a name="12"/><span style="color:red">%s%%s%%s%%s%12%s%%s%</span>%t%<span class="keyword">endfunction</span><br/>
+<a name="13"/><span style="color:red">%s%%s%%s%%s%13%s%%s%</span><br/>
+<a name="14"/><span style="color:red">%s%%s%%s%%s%14%s%%s%</span>%t%<span class="comment">//%s%build%s%phase</span><br/>
+<a name="15"/><span style="color:red">%s%%s%%s%%s%15%s%%s%</span>%t%<span class="keyword">function</span>%s%<span class="keyword">void</span>%s%build_phase(uvm_phase%s%phase);<br/>
+<a name="16"/><span style="color:red">%s%%s%%s%%s%16%s%%s%</span>%t%%t%<span class="keyword">super</span>.build_phase(phase);<br/>
+<a name="17"/><span style="color:red">%s%%s%%s%%s%17%s%%s%</span>%t%%t%env=adder_environment::type_id::create(<span class="literal">"env"</span>,%s%<span class="keyword">this</span>);%t%%t%%t%%t%%t%%t%%t%%t%<span class="comment">//%s%creating%s%the%s%object%s%for%s%env%s%handle%s%in%s%build%s%phase</span><br/>
+<a name="18"/><span style="color:red">%s%%s%%s%%s%18%s%%s%</span>%t%%t%`uvm_info%s%(get_type_name(),%s%$sformatf(<span class="literal">"This%s%is%s%the%s%Test%s%class"</span>),%s%UVM_NONE)<br/>
+<a name="19"/><span style="color:red">%s%%s%%s%%s%19%s%%s%</span>%t%<span class="keyword">endfunction</span><br/>
+<a name="20"/><span style="color:red">%s%%s%%s%%s%20%s%%s%</span><br/>
+<a name="21"/><span style="color:red">%s%%s%%s%%s%21%s%%s%</span>%t%<span class="comment">//Run%s%phase</span><br/>
+<a name="22"/><span style="color:red">%s%%s%%s%%s%22%s%%s%</span>%t%<span class="keyword">task</span>%s%run_phase(uvm_phase%s%phase);%t%<br/>
+<a name="23"/><span style="color:red">%s%%s%%s%%s%23%s%%s%</span>%t%%t%phase.raise_objection(<span class="keyword">this</span>);<br/>
+<a name="24"/><span style="color:red">%s%%s%%s%%s%24%s%%s%</span>%t%%t%%t%seq%s%=%s%adder_sequence::type_id::create(<span class="literal">"seq"</span>);%t%%t%%t%%t%%t%%t%%t%%t%%s%<span class="comment">//%s%creating%s%the%s%object%s%for%s%seq%s%handle%s%in%s%run%s%phase</span><br/>
+<a name="25"/><span style="color:red">%s%%s%%s%%s%25%s%%s%</span>%t%%t%%t%#100;<br/>
+<a name="26"/><span style="color:red">%s%%s%%s%%s%26%s%%s%</span>%t%%t%%t%<span class="comment">//seq.start(env.agnt.seqr);</span><br/>
+<a name="27"/><span style="color:red">%s%%s%%s%%s%27%s%%s%</span>%t%%t%%t%seq.start(env.vseqr.addr_seqr);<br/>
+<a name="28"/><span style="color:red">%s%%s%%s%%s%28%s%%s%</span>%t%%t%phase.drop_objection(<span class="keyword">this</span>);<br/>
+<a name="29"/><span style="color:red">%s%%s%%s%%s%29%s%%s%</span>%t%<span class="keyword">endtask</span><br/>
+<a name="30"/><span style="color:red">%s%%s%%s%%s%30%s%%s%</span><br/>
+<a name="31"/><span style="color:red">%s%%s%%s%%s%31%s%%s%</span><br/>
+<a name="32"/><span style="color:red">%s%%s%%s%%s%32%s%%s%</span><br/>
+<a name="33"/><span style="color:red">%s%%s%%s%%s%33%s%%s%</span><span class="keyword">endclass</span></tt>
+<script type="text/javascript" src="../scripts/buildsrcpage.js"></script>
+  
+</body>
+</html>
