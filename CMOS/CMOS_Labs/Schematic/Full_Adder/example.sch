@@ -1,0 +1,4 @@
+DSCH3
+VERSION 14-07-2024 17:41:06
+BB(-15,-15,70,70)
+FFIG example.sch

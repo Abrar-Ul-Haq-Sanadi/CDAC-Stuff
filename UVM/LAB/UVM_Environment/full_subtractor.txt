@@ -1,0 +1,271 @@
+// full_subtractor.sv
+module full_subtractor (
+    input  logic a,
+    input  logic b,
+    input  logic bin,
+    output logic diff,
+    output logic bout
+);
+    assign diff = a ^ b ^ bin;
+    assign bout = (~a & (b ^ bin)) | (b & bin);
+endmodule
+
+// full_subtractor_if.sv
+interface full_subtractor_if();
+    logic a;
+    logic b;
+    logic bin;
+    logic diff;
+    logic bout;
+endinterface
+
+
+// transaction.sv
+`include "uvm_macros.svh"
+import uvm_pkg::*;
+
+class transaction extends uvm_sequence_item;
+    rand bit a;
+    rand bit b;
+    rand bit bin;
+    bit diff;
+    bit bout;
+
+    function new(input string name = "transaction");
+        super.new(name);
+    endfunction
+
+    `uvm_object_utils_begin(transaction)
+        `uvm_field_int(a, UVM_DEFAULT)
+        `uvm_field_int(b, UVM_DEFAULT)
+        `uvm_field_int(bin, UVM_DEFAULT)
+        `uvm_field_int(diff, UVM_DEFAULT)
+        `uvm_field_int(bout, UVM_DEFAULT)
+    `uvm_object_utils_end
+endclass
+
+// generator.sv
+class generator extends uvm_sequence #(transaction);
+    `uvm_object_utils(generator)
+
+    transaction t;
+
+    function new(input string name = "generator");
+        super.new(name);
+    endfunction
+
+    virtual task body();
+        t = transaction::type_id::create("t");
+        repeat(10) begin
+            start_item(t);
+            t.randomize();
+            `uvm_info("GEN", $sformatf("Data sent to Driver: a = %0b, b = %0b, bin = %0b", t.a, t.b, t.bin), UVM_NONE);
+            finish_item(t);
+        end
+    endtask
+endclass
+
+// driver.sv
+class driver extends uvm_driver #(transaction);
+    `uvm_component_utils(driver)
+
+    virtual full_subtractor_if fs_if;
+    transaction tr;
+
+    function new(input string name = "driver", uvm_component parent = null);
+        super.new(name, parent);
+    endfunction
+
+    virtual function void build_phase(uvm_phase phase);
+        super.build_phase(phase);
+        if (!uvm_config_db #(virtual full_subtractor_if)::get(this, "", "fs_if", fs_if))
+            `uvm_error("DRV", "Unable to access uvm_config_db");
+    endfunction
+
+    virtual task run_phase(uvm_phase phase);
+        forever begin
+            seq_item_port.get_next_item(tr);
+            fs_if.a <= tr.a;
+            fs_if.b <= tr.b;
+            fs_if.bin <= tr.bin;
+            `uvm_info("DRV", $sformatf("Driving DUT: a = %0b, b = %0b, bin = %0b", tr.a, tr.b, tr.bin), UVM_NONE);
+            seq_item_port.item_done();
+            #10;
+        end
+    endtask
+endclass
+
+// monitor.sv
+class monitor extends uvm_monitor;
+    `uvm_component_utils(monitor)
+
+    uvm_analysis_port #(transaction) ap;
+    virtual full_subtractor_if fs_if;
+    transaction tr;
+
+    function new(input string name = "monitor", uvm_component parent = null);
+        super.new(name, parent);
+        ap = new("ap", this);
+    endfunction
+
+    virtual function void build_phase(uvm_phase phase);
+        super.build_phase(phase);
+        if (!uvm_config_db #(virtual full_subtractor_if)::get(this, "", "fs_if", fs_if))
+            `uvm_error("MON", "Unable to access uvm_config_db");
+    endfunction
+
+    virtual task run_phase(uvm_phase phase);
+        forever begin
+            #10;
+            tr = transaction::type_id::create("tr");
+            tr.a = fs_if.a;
+            tr.b = fs_if.b;
+            tr.bin = fs_if.bin;
+            tr.diff = fs_if.diff;
+            tr.bout = fs_if.bout;
+            `uvm_info("MON", $sformatf("Monitoring: a = %0b, b = %0b, bin = %0b, diff = %0b, bout = %0b", tr.a, tr.b, tr.bin, tr.diff, tr.bout), UVM_NONE);
+            ap.write(tr);
+        end
+    endtask
+endclass
+
+// scoreboard.sv
+class scoreboard extends uvm_scoreboard;
+    `uvm_component_utils(scoreboard)
+
+    uvm_analysis_imp #(transaction, scoreboard) imp;
+
+    function new(input string name = "scoreboard", uvm_component parent = null);
+        super.new(name, parent);
+        imp = new("imp", this);
+    endfunction
+
+    virtual function void write(input transaction t);
+        `uvm_info("SCO", $sformatf("Received from Monitor: a = %0b, b = %0b, bin = %0b, diff = %0b, bout = %0b", t.a, t.b, t.bin, t.diff, t.bout), UVM_NONE);
+        if ((t.diff == (t.a ^ t.b ^ t.bin)) && (t.bout == (~t.a & (t.b ^ t.bin)) | (t.b & t.bin)))
+            `uvm_info("SCO", "Test Passed", UVM_NONE)
+        else
+            `uvm_info("SCO", "Test Failed", UVM_NONE);
+    endfunction
+endclass
+
+// agent.sv
+class agent extends uvm_agent;
+    `uvm_component_utils(agent)
+
+    monitor mon;
+    driver drv;
+    uvm_sequencer #(transaction) seqr;
+
+    function new(input string name = "agent", uvm_component parent = null);
+        super.new(name, parent);
+    endfunction
+
+    virtual function void build_phase(uvm_phase phase);
+        super.build_phase(phase);
+        mon = monitor::type_id::create("mon", this);
+        drv = driver::type_id::create("drv", this);
+        seqr = uvm_sequencer #(transaction)::type_id::create("seqr", this);
+    endfunction
+
+    virtual function void connect_phase(uvm_phase phase);
+        super.connect_phase(phase);
+        drv.seq_item_port.connect(seqr.seq_item_export);
+    endfunction
+endclass
+
+// agent.sv
+class agent extends uvm_agent;
+    `uvm_component_utils(agent)
+
+    monitor mon;
+    driver drv;
+    uvm_sequencer #(transaction) seqr;
+
+    function new(input string name = "agent", uvm_component parent = null);
+        super.new(name, parent);
+    endfunction
+
+    virtual function void build_phase(uvm_phase phase);
+        super.build_phase(phase);
+        mon = monitor::type_id::create("mon", this);
+        drv = driver::type_id::create("drv", this);
+        seqr = uvm_sequencer #(transaction)::type_id::create("seqr", this);
+    endfunction
+
+    virtual function void connect_phase(uvm_phase phase);
+        super.connect_phase(phase);
+        drv.seq_item_port.connect(seqr.seq_item_export);
+    endfunction
+endclass
+
+// env.sv
+class env extends uvm_env;
+    `uvm_component_utils(env)
+
+    agent agt;
+    scoreboard sco;
+
+    function new(input string name = "env", uvm_component parent = null);
+        super.new(name, parent);
+    endfunction
+
+    virtual function void build_phase(uvm_phase phase);
+        super.build_phase(phase);
+        agt = agent::type_id::create("agt", this);
+        sco = scoreboard::type_id::create("sco", this);
+    endfunction
+
+    virtual function void connect_phase(uvm_phase phase);
+        super.connect_phase(phase);
+        agt.mon.ap.connect(sco.imp);
+    endfunction
+endclass
+
+// test.sv
+class test extends uvm_test;
+    `uvm_component_utils(test)
+
+    generator gen;
+    env e;
+
+    function new(input string name = "test", uvm_component parent = null);
+        super.new(name, parent);
+    endfunction
+
+    virtual function void build_phase(uvm_phase phase);
+        super.build_phase(phase);
+        gen = generator::type_id::create("gen");
+        e = env::type_id::create("e", this);
+    endfunction
+
+    virtual task run_phase(uvm_phase phase);
+        phase.raise_objection(this);
+        gen.start(e.agt.seqr);
+        #50;
+        phase.drop_objection(this);
+    endtask
+endclass
+
+// tb_full_subtractor.sv
+module tb_full_subtractor();
+    full_subtractor_if fs_if();
+
+    full_subtractor dut (
+        .a(fs_if.a),
+        .b(fs_if.b),
+        .bin(fs_if.bin),
+        .diff(fs_if.diff),
+        .bout(fs_if.bout)
+    );
+
+    initial begin
+        $dumpfile("dump.vcd");
+        $dumpvars;
+    end
+
+    initial begin
+        uvm_config_db #(virtual full_subtractor_if)::set(null, "uvm_test_top.e.agt*", "fs_if", fs_if);
+        run_test("test");
+    end
+endmodule

@@ -1,0 +1,29 @@
+USER SYMBOL by DSCH3
+DATE 13-07-2024 18:54:34
+SYM  #or2_sch
+BB(0,0,40,30)
+TITLE 10 -7  #or2_sch
+MODEL 6000
+REC(5,5,30,20)
+PIN(0,20,0.00,0.00)A_in
+PIN(0,10,0.00,0.00)B_in
+PIN(40,10,2.00,1.00)Y_out
+LIG(0,20,5,20)
+LIG(0,10,5,10)
+LIG(35,10,40,10)
+LIG(5,5,5,25)
+LIG(5,5,35,5)
+LIG(35,5,35,25)
+LIG(35,25,5,25)
+VLG module or2_sch( A_in,B_in,Y_out);
+VLG  input A_in,B_in;
+VLG  output Y_out;
+VLG  wire w3,w4,w5,;
+VLG  pmos #(31) pmos_1(w5,w3,w4); // 2.0u 0.12u
+VLG  pmos #(10) pmos_2(w3,vdd,A_in); // 2.0u 0.12u
+VLG  nmos #(31) nmos_3(w5,vss,B_in); // 1.0u 0.12u
+VLG  nmos #(31) nmos_4(w5,vss,A_in); // 1.0u 0.12u
+VLG  pmos #(17) pmos_5(Y_out,vdd,w5); // 2.0u 0.12u
+VLG  nmos #(17) nmos_6(Y_out,vss,w5); // 1.0u 0.12u
+VLG endmodule
+FSYM

@@ -1,0 +1,301 @@
+// moore_1010.sv
+module moore_1010 (
+    input  logic clk,
+    input  logic rst_n,
+    input  logic din,
+    output logic dout
+);
+
+    typedef enum logic [2:0] {
+        S0,  // Initial state
+        S1,  // Detected '1'
+        S2,  // Detected '10'
+        S3,  // Detected '101'
+        S4   // Detected '1010'
+    } state_t;
+
+    state_t current_state, next_state;
+
+    // State transition logic
+    always_ff @(posedge clk or negedge rst_n) begin
+        if (!rst_n)
+            current_state <= S0;
+        else
+            current_state <= next_state;
+    end
+
+    // Next state logic
+    always_comb begin
+        next_state = current_state;
+        case (current_state)
+            S0: if (din) next_state = S1;
+            S1: if (!din) next_state = S2;
+            S2: if (din) next_state = S3;
+            S3: if (!din) next_state = S4;
+            S4: if (din) next_state = S1;
+                else next_state = S0;
+        endcase
+    end
+
+    // Output logic (Moore type)
+    assign dout = (current_state == S4);
+
+endmodule
+
+
+// seq_det_if.sv
+interface seq_det_if(input logic clk);
+    logic rst_n;
+    logic din;
+    logic dout;
+
+    modport MASTER(input rst_n, din, output dout);
+endinterface
+
+
+// transaction.sv
+`include "uvm_macros.svh"
+import uvm_pkg::*;
+
+class transaction extends uvm_sequence_item;
+    rand logic din;
+    logic dout;
+
+    function new(input string name = "transaction");
+        super.new(name);
+    endfunction
+
+    `uvm_object_utils_begin(transaction)
+        `uvm_field_int(din, UVM_DEFAULT)
+        `uvm_field_int(dout, UVM_DEFAULT)
+    `uvm_object_utils_end
+endclass
+
+
+// generator.sv
+class generator extends uvm_sequence #(transaction);
+    `uvm_object_utils(generator)
+
+    transaction t;
+
+    function new(input string name = "generator");
+        super.new(name);
+    endfunction
+
+    virtual task body();
+        t = transaction::type_id::create("t");
+        repeat(10) begin
+            start_item(t);
+            t.randomize();
+            `uvm_info("GEN", $sformatf("Generated din = %0d", t.din), UVM_NONE);
+            finish_item(t);
+        end
+    endtask
+endclass
+
+
+// driver.sv
+class driver extends uvm_driver #(transaction);
+    `uvm_component_utils(driver)
+
+    virtual seq_det_if seq_if;
+    transaction tr;
+
+    function new(input string name = "driver", uvm_component parent = null);
+        super.new(name, parent);
+    endfunction
+
+    virtual function void build_phase(uvm_phase phase);
+        super.build_phase(phase);
+        if (!uvm_config_db #(virtual seq_det_if)::get(this, "", "seq_if", seq_if))
+            `uvm_error("DRV", "Unable to access uvm_config_db");
+    endfunction
+
+    virtual task run_phase(uvm_phase phase);
+        forever begin
+            seq_item_port.get_next_item(tr);
+            seq_if.din <= tr.din;
+            @(posedge seq_if.clk);
+            tr.dout = seq_if.dout;
+            `uvm_info("DRV", $sformatf("Driven din = %0d, dout = %0d", tr.din, tr.dout), UVM_NONE);
+            seq_item_port.item_done();
+        end
+    endtask
+endclass
+
+
+// monitor.sv
+class monitor extends uvm_monitor;
+    `uvm_component_utils(monitor)
+
+    uvm_analysis_port #(transaction) ap;
+    virtual seq_det_if seq_if;
+    transaction tr;
+
+    function new(input string name = "monitor", uvm_component parent = null);
+        super.new(name, parent);
+        ap = new("ap", this);
+    endfunction
+
+    virtual function void build_phase(uvm_phase phase);
+        super.build_phase(phase);
+        if (!uvm_config_db #(virtual seq_det_if)::get(this, "", "seq_if", seq_if))
+            `uvm_error("MON", "Unable to access uvm_config_db");
+    endfunction
+
+    virtual task run_phase(uvm_phase phase);
+        forever begin
+            @(posedge seq_if.clk);
+            tr = transaction::type_id::create("tr");
+            tr.din = seq_if.din;
+            tr.dout = seq_if.dout;
+            `uvm_info("MON", $sformatf("Monitored din = %0d, dout = %0d", tr.din, tr.dout), UVM_NONE);
+            ap.write(tr);
+        end
+    endtask
+endclass
+
+
+// scoreboard.sv
+class scoreboard extends uvm_scoreboard;
+    `uvm_component_utils(scoreboard)
+
+    uvm_analysis_imp #(transaction, scoreboard) imp;
+
+    typedef enum logic [2:0] {
+        S0, S1, S2, S3, S4
+    } state_t;
+
+    state_t state;
+
+    function new(input string name = "scoreboard", uvm_component parent = null);
+        super.new(name, parent);
+        imp = new("imp", this);
+        state = S0;
+    endfunction
+
+    virtual function void write(input transaction tr);
+        `uvm_info("SCO", $sformatf("Received din = %0d, dout = %0d", tr.din, tr.dout), UVM_NONE);
+
+        state_t next_state = state;
+
+        case (state)
+            S0: if (tr.din) next_state = S1;
+            S1: if (!tr.din) next_state = S2;
+            S2: if (tr.din) next_state = S3;
+            S3: if (!tr.din) next_state = S4;
+            S4: if (tr.din) next_state = S1;
+                else next_state = S0;
+        endcase
+
+        logic expected_dout = (next_state == S4);
+
+        state = next_state;
+
+        if (tr.dout == expected_dout)
+            `uvm_info("SCO", "Test Passed", UVM_NONE)
+        else
+            `uvm_error("SCO", $sformatf("Test Failed: Expected dout = %0d, Got dout = %0d", expected_dout, tr.dout));
+    endfunction
+endclass
+
+
+// agent.sv
+class agent extends uvm_agent;
+    `uvm_component_utils(agent)
+
+    monitor mon;
+    driver drv;
+    uvm_sequencer #(transaction) seqr;
+
+    function new(input string name = "agent", uvm_component parent = null);
+        super.new(name, parent);
+    endfunction
+
+    virtual function void build_phase(uvm_phase phase);
+        super.build_phase(phase);
+        mon = monitor::type_id::create("mon", this);
+        drv = driver::type_id::create("drv", this);
+        seqr = uvm_sequencer #(transaction)::type_id::create("seqr", this);
+    endfunction
+
+    virtual function void connect_phase(uvm_phase phase);
+        super.connect_phase(phase);
+        drv.seq_item_port.connect(seqr.seq_item_export);
+    endfunction
+endclass
+
+
+// env.sv
+class env extends uvm_env;
+    `uvm_component_utils(env)
+
+    agent agt;
+    scoreboard sco;
+
+    function new(input string name = "env", uvm_component parent = null);
+        super.new(name, parent);
+    endfunction
+
+    virtual function void build_phase(uvm_phase phase);
+        super.build_phase(phase);
+        agt = agent::type_id::create("agt", this);
+        sco = scoreboard::type_id::create("sco", this);
+    endfunction
+
+    virtual function void connect_phase(uvm_phase phase);
+        super.connect_phase(phase);
+        agt.mon.ap.connect(sco.imp);
+    endfunction
+endclass
+
+
+// test.sv
+class test extends uvm_test;
+    `uvm_component_utils(test)
+
+    env e;
+    generator gen;
+
+    function new(input string name = "test", uvm_component parent = null);
+        super.new(name, parent);
+    endfunction
+
+    virtual function void build_phase(uvm_phase phase);
+        super.build_phase(phase);
+        e = env::type_id::create("e", this);
+        gen = generator::type_id::create("gen");
+    endfunction
+
+    virtual task run_phase(uvm_phase phase);
+        phase.raise_objection(this);
+        gen.start(e.agt.seqr);
+        #50;
+        phase.drop_objection(this);
+    endtask
+endclass
+
+
+// moore_1010_tb.sv
+module moore_1010_tb();
+
+    logic clk;
+    seq_det_if seq_if(clk);
+
+    moore_1010 dut (
+        .clk(clk),
+        .rst_n(seq_if.rst_n),
+        .din(seq_if.din),
+        .dout(seq_if.dout)
+    );
+
+    initial begin
+        clk = 0;
+        forever #5 clk = ~clk;
+    end
+
+    initial begin
+        uvm_config_db #(virtual seq_det_if)::set(null, "uvm_test_top.e.agt*", "seq_if", seq_if);
+        run_test("test");
+    end
+endmodule

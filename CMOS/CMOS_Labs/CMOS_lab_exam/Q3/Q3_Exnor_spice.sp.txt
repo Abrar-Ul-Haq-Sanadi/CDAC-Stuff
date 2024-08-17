@@ -1,0 +1,23 @@
+* Ex-NOR Gate using NOR Gates
+
+
+VinA A 0 DC 0
+VinB B 0 DC 0
+
+* NOR gates
+* NOR1: A NOR B
+X1 A B N1 NOR
+X2 N1 N1 N2 NOR
+X3 A N2 N3 NOR
+X4 B N2 N4 NOR
+X5 N3 N4 Y NOR
+
+
+.subckt NOR A B Y
+E1 N001 0 VOL=V(A)+V(B)
+R1 N001 Y 10k
+.ends NOR
+
+* Simulation commands
+.tran 0.1s 10s
+.end

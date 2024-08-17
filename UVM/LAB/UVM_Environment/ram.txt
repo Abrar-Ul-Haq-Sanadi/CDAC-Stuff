@@ -1,0 +1,269 @@
+// ram.sv
+module ram (
+    input  logic        clk,
+    input  logic        we,      // Write enable
+    input  logic [3:0]  addr,    // Address
+    input  logic [7:0]  din,     // Data input
+    output logic [7:0]  dout     // Data output
+);
+    logic [7:0] mem [15:0];  // 16x8 RAM
+
+    always_ff @(posedge clk) begin
+        if (we)
+            mem[addr] <= din;
+        dout <= mem[addr];
+    end
+endmodule
+
+// ram_if.sv
+interface ram_if(input logic clk);
+    logic        we;
+    logic [3:0]  addr;
+    logic [7:0]  din;
+    logic [7:0]  dout;
+
+    modport MASTER(input we, addr, din, output dout);
+endinterface
+
+// transaction.sv
+`include "uvm_macros.svh"
+import uvm_pkg::*;
+
+class transaction extends uvm_sequence_item;
+    rand logic        we;
+    rand logic [3:0]  addr;
+    rand logic [7:0]  din;
+    logic [7:0]       dout;
+
+    function new(input string name = "transaction");
+        super.new(name);
+    endfunction
+
+    `uvm_object_utils_begin(transaction)
+        `uvm_field_int(we, UVM_DEFAULT)
+        `uvm_field_int(addr, UVM_DEFAULT)
+        `uvm_field_int(din, UVM_DEFAULT)
+        `uvm_field_int(dout, UVM_DEFAULT)
+    `uvm_object_utils_end
+endclass
+
+// generator.sv
+class generator extends uvm_sequence #(transaction);
+    `uvm_object_utils(generator)
+
+    transaction t;
+
+    function new(input string name = "generator");
+        super.new(name);
+    endfunction
+
+    virtual task body();
+        t = transaction::type_id::create("t");
+        repeat(10) begin
+            start_item(t);
+            t.randomize();
+            `uvm_info("GEN", $sformatf("Generated: we = %0b, addr = %0d, din = %0d", t.we, t.addr, t.din), UVM_NONE);
+            finish_item(t);
+        end
+    endtask
+endclass
+
+// driver.sv
+class driver extends uvm_driver #(transaction);
+    `uvm_component_utils(driver)
+
+    virtual ram_if ram_if;
+    transaction tr;
+
+    function new(input string name = "driver", uvm_component parent = null);
+        super.new(name, parent);
+    endfunction
+
+    virtual function void build_phase(uvm_phase phase);
+        super.build_phase(phase);
+        if (!uvm_config_db #(virtual ram_if)::get(this, "", "ram_if", ram_if))
+            `uvm_error("DRV", "Unable to access uvm_config_db");
+    endfunction
+
+    virtual task run_phase(uvm_phase phase);
+        forever begin
+            seq_item_port.get_next_item(tr);
+            ram_if.we   <= tr.we;
+            ram_if.addr <= tr.addr;
+            ram_if.din  <= tr.din;
+            @(posedge ram_if.clk);
+            tr.dout = ram_if.dout;
+            `uvm_info("DRV", $sformatf("DUT driven: we = %0b, addr = %0d, din = %0d, dout = %0d", tr.we, tr.addr, tr.din, tr.dout), UVM_NONE);
+            seq_item_port.item_done();
+        end
+    endtask
+endclass
+
+// monitor.sv
+class monitor extends uvm_monitor;
+    `uvm_component_utils(monitor)
+
+    uvm_analysis_port #(transaction) ap;
+    virtual ram_if ram_if;
+    transaction tr;
+
+    function new(input string name = "monitor", uvm_component parent = null);
+        super.new(name, parent);
+        ap = new("ap", this);
+    endfunction
+
+    virtual function void build_phase(uvm_phase phase);
+        super.build_phase(phase);
+        if (!uvm_config_db #(virtual ram_if)::get(this, "", "ram_if", ram_if))
+            `uvm_error("MON", "Unable to access uvm_config_db");
+    endfunction
+
+    virtual task run_phase(uvm_phase phase);
+        forever begin
+            @(posedge ram_if.clk);
+            tr = transaction::type_id::create("tr");
+            tr.we   = ram_if.we;
+            tr.addr = ram_if.addr;
+            tr.din  = ram_if.din;
+            tr.dout = ram_if.dout;
+            `uvm_info("MON", $sformatf("Monitored: we = %0b, addr = %0d, din = %0d, dout = %0d", tr.we, tr.addr, tr.din, tr.dout), UVM_NONE);
+            ap.write(tr);
+        end
+    endtask
+endclass
+
+
+// scoreboard.sv
+class scoreboard extends uvm_scoreboard;
+    `uvm_component_utils(scoreboard)
+
+    uvm_analysis_imp #(transaction, scoreboard) imp;
+
+    logic [7:0] mem [15:0];  // Reference model
+
+    function new(input string name = "scoreboard", uvm_component parent = null);
+        super.new(name, parent);
+        imp = new("imp", this);
+    endfunction
+
+    virtual function void write(input transaction t);
+        `uvm_info("SCO", $sformatf("Received: we = %0b, addr = %0d, din = %0d, dout = %0d", t.we, t.addr, t.din, t.dout), UVM_NONE);
+
+        if (t.we)
+            mem[t.addr] = t.din;
+
+        logic [7:0] expected_dout = mem[t.addr];
+
+        if (t.dout == expected_dout)
+            `uvm_info("SCO", "Test Passed", UVM_NONE)
+        else
+            `uvm_info("SCO", $sformatf("Test Failed: Expected dout = %0d, Got dout = %0d", expected_dout, t.dout), UVM_ERROR);
+    endfunction
+endclass
+
+
+// agent.sv
+class agent extends uvm_agent;
+    `uvm_component_utils(agent)
+
+    monitor mon;
+    driver drv;
+    uvm_sequencer #(transaction) seqr;
+
+    function new(input string name = "agent", uvm_component parent = null);
+        super.new(name, parent);
+    endfunction
+
+    virtual function void build_phase(uvm_phase phase);
+        super.build_phase(phase);
+        mon = monitor::type_id::create("mon", this);
+        drv = driver::type_id::create("drv", this);
+        seqr = uvm_sequencer #(transaction)::type_id::create("seqr", this);
+    endfunction
+
+    virtual function void connect_phase(uvm_phase phase);
+        super.connect_phase(phase);
+        drv.seq_item_port.connect(seqr.seq_item_export);
+    endfunction
+endclass
+
+
+// env.sv
+class env extends uvm_env;
+    `uvm_component_utils(env)
+
+    agent agt;
+    scoreboard sco;
+
+    function new(input string name = "env", uvm_component parent = null);
+        super.new(name, parent);
+    endfunction
+
+    virtual function void build_phase(uvm_phase phase);
+        super.build_phase(phase);
+        agt = agent::type_id::create("agt", this);
+        sco = scoreboard::type_id::create("sco", this);
+    endfunction
+
+    virtual function void connect_phase(uvm_phase phase);
+        super.connect_phase(phase);
+        agt.mon.ap.connect(sco.imp);
+    endfunction
+endclass
+
+
+// test.sv
+class test extends uvm_test;
+    `uvm_component_utils(test)
+
+    generator gen;
+    env e;
+
+    function new(input string name = "test", uvm_component parent = null);
+        super.new(name, parent);
+    endfunction
+
+    virtual function void build_phase(uvm_phase phase);
+        super.build_phase(phase);
+        gen = generator::type_id::create("gen");
+        e = env::type_id::create("e", this);
+    endfunction
+
+    virtual task run_phase(uvm_phase phase);
+        phase.raise_objection(this);
+        gen.start(e.agt.seqr);
+        #50;
+        phase.drop_objection(this);
+    endtask
+endclass
+
+
+// tb_ram.sv
+module tb_ram();
+    logic clk;
+    ram_if ram_if(.clk(clk));
+
+    ram dut (
+        .clk(clk),
+        .we(ram_if.we),
+        .addr(ram_if.addr),
+        .din(ram_if.din),
+        .dout(ram_if.dout)
+    );
+
+    initial begin
+        clk = 0;
+        forever #5 clk = ~clk;
+    end
+
+    initial begin
+        $dumpfile("dump.vcd");
+        $dumpvars;
+    end
+
+    initial begin
+        uvm_config_db #(virtual ram_if)::set(null, "uvm_test_top.e.agt*", "ram_if", ram_if);
+        run_test("test");
+    end
+endmodule
+

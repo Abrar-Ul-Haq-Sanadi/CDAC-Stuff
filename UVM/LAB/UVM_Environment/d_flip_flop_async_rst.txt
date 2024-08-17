@@ -1,0 +1,272 @@
+module d_flip_flop_async_rst (
+    input logic clk,
+    input logic arst_n,
+    input logic d,
+    output logic q
+);
+
+    always_ff @(posedge clk or negedge arst_n) begin
+        if (!arst_n)
+            q <= 1'b0;
+        else
+            q <= d;
+    end
+
+endmodule
+
+interface dff_async_rst_if();
+    logic clk;
+    logic arst_n;
+    logic d;
+    logic q;
+endinterface
+
+`include "uvm_macros.svh"
+import uvm_pkg::*;
+
+////////////////////////////////////////
+// Transaction for Asynchronous Reset D Flip-Flop
+
+class dff_async_rst_transaction extends uvm_sequence_item;
+    rand bit d;
+    rand bit arst_n;
+    bit q;
+
+    function new(input string name = "dff_async_rst_transaction");
+        super.new(name);
+    endfunction
+
+    `uvm_object_utils_begin(dff_async_rst_transaction)
+        `uvm_field_int(d, UVM_DEFAULT)
+        `uvm_field_int(arst_n, UVM_DEFAULT)
+        `uvm_field_int(q, UVM_DEFAULT)
+    `uvm_object_utils_end
+endclass
+
+////////////////////////////////////////
+// Generator for Asynchronous Reset D Flip-Flop
+
+class dff_async_rst_generator extends uvm_sequence #(dff_async_rst_transaction);
+    `uvm_object_utils(dff_async_rst_generator)
+
+    dff_async_rst_transaction t;
+
+    function new(input string name = "dff_async_rst_generator");
+        super.new(name);
+    endfunction
+
+    virtual task body();
+        t = dff_async_rst_transaction::type_id::create("t");
+        repeat (16) begin
+            start_item(t);
+            t.randomize();
+            `uvm_info("GEN", $sformatf("Data sent to Driver d: %0d, arst_n: %0d", t.d, t.arst_n), UVM_NONE);
+            finish_item(t);
+            #10;
+        end
+    endtask
+endclass
+
+////////////////////////////////////////
+// Driver for Asynchronous Reset D Flip-Flop
+
+class dff_async_rst_driver extends uvm_driver #(dff_async_rst_transaction);
+    `uvm_component_utils(dff_async_rst_driver)
+
+    function new(input string name = "dff_async_rst_driver", uvm_component parent = null);
+        super.new(name, parent);
+    endfunction
+
+    virtual dff_async_rst_if dif;
+
+    virtual function void build_phase(uvm_phase phase);
+        super.build_phase(phase);
+        if (!uvm_config_db #(virtual dff_async_rst_if)::get(this, "", "dif", dif))
+            `uvm_error("DRV", "Unable to access uvm_config_db");
+    endfunction
+
+    virtual task run_phase(uvm_phase phase);
+        forever begin
+            seq_item_port.get_next_item(req);
+            dif.d <= req.d;
+            dif.arst_n <= req.arst_n;
+            `uvm_info("DRV", $sformatf("Trigger DUT d: %0d, arst_n: %0d", req.d, req.arst_n), UVM_NONE);
+            seq_item_port.item_done();
+            #10;
+        end
+    endtask
+endclass
+
+////////////////////////////////////////
+// Monitor for Asynchronous Reset D Flip-Flop
+
+class dff_async_rst_monitor extends uvm_monitor;
+    `uvm_component_utils(dff_async_rst_monitor)
+
+    uvm_analysis_port #(dff_async_rst_transaction) send;
+
+    function new(input string name = "dff_async_rst_monitor", uvm_component parent = null);
+        super.new(name, parent);
+        send = new("send", this);
+    endfunction
+
+    dff_async_rst_transaction t;
+    virtual dff_async_rst_if dif;
+
+    virtual function void build_phase(uvm_phase phase);
+        super.build_phase(phase);
+        if (!uvm_config_db #(virtual dff_async_rst_if)::get(this, "", "dif", dif))
+            `uvm_error("MON", "Unable to access uvm_config_db");
+    endfunction
+
+    virtual task run_phase(uvm_phase phase);
+        forever begin
+            #10;
+            t = dff_async_rst_transaction::type_id::create("t");
+            t.d = dif.d;
+            t.arst_n = dif.arst_n;
+            t.q = dif.q;
+            `uvm_info("MON", $sformatf("Data sent to Scoreboard d: %0d, arst_n: %0d, q: %0d", t.d, t.arst_n, t.q), UVM_NONE);
+            send.write(t);
+        end
+    endtask
+endclass
+
+////////////////////////////////////////
+// Scoreboard for Asynchronous Reset D Flip-Flop
+
+class dff_async_rst_scoreboard extends uvm_scoreboard;
+    `uvm_component_utils(dff_async_rst_scoreboard)
+
+    uvm_analysis_imp #(dff_async_rst_transaction, dff_async_rst_scoreboard) recv;
+
+    function new(input string name = "dff_async_rst_scoreboard", uvm_component parent = null);
+        super.new(name, parent);
+        recv = new("recv", this);
+    endfunction
+
+    virtual function void write(input dff_async_rst_transaction t);
+        if (!t.arst_n) begin
+            if (t.q != 1'b0) begin
+                `uvm_error("SCO", $sformatf("Test Failed. Expected q: 0, Actual q: %0d", t.q));
+            end else begin
+                `uvm_info("SCO", "Test Passed", UVM_NONE);
+            end
+        end else begin
+            if (t.q != t.d) begin
+                `uvm_error("SCO", $sformatf("Test Failed. Expected q: %0d, Actual q: %0d", t.d, t.q));
+            end else begin
+                `uvm_info("SCO", "Test Passed", UVM_NONE);
+            end
+        end
+    endfunction
+endclass
+
+////////////////////////////////////////
+// Agent for Asynchronous Reset D Flip-Flop
+
+class dff_async_rst_agent extends uvm_agent;
+    `uvm_component_utils(dff_async_rst_agent)
+
+    function new(input string name = "dff_async_rst_agent", uvm_component parent = null);
+        super.new(name, parent);
+    endfunction
+
+    dff_async_rst_monitor m;
+    dff_async_rst_driver d;
+    uvm_sequencer #(dff_async_rst_transaction) seqr;
+
+    virtual function void build_phase(uvm_phase phase);
+        super.build_phase(phase);
+        m = dff_async_rst_monitor::type_id::create("m", this);
+        d = dff_async_rst_driver::type_id::create("d", this);
+        seqr = uvm_sequencer #(dff_async_rst_transaction)::type_id::create("seqr", this);
+    endfunction
+
+    virtual function void connect_phase(uvm_phase phase);
+        super.connect_phase(phase);
+        d.seq_item_port.connect(seqr.seq_item_export);
+    endfunction
+endclass
+
+////////////////////////////////////////
+// Environment for Asynchronous Reset D Flip-Flop
+
+class dff_async_rst_env extends uvm_env;
+    `uvm_component_utils(dff_async_rst_env)
+
+    function new(input string name = "dff_async_rst_env", uvm_component parent = null);
+        super.new(name, parent);
+    endfunction
+
+    dff_async_rst_scoreboard s;
+    dff_async_rst_agent a;
+
+    virtual function void build_phase(uvm_phase phase);
+        super.build_phase(phase);
+        s = dff_async_rst_scoreboard::type_id::create("s", this);
+        a = dff_async_rst_agent::type_id::create("a", this);
+    endfunction
+
+    virtual function void connect_phase(uvm_phase phase);
+        super.connect_phase(phase);
+        a.m.send.connect(s.recv);
+    endfunction
+endclass
+
+////////////////////////////////////////
+// Test for Asynchronous Reset D Flip-Flop
+
+class dff_async_rst_test extends uvm_test;
+    `uvm_component_utils(dff_async_rst_test)
+
+    function new(input string name = "dff_async_rst_test", uvm_component parent = null);
+        super.new(name, parent);
+    endfunction
+
+    dff_async_rst_generator gen;
+    dff_async_rst_env e;
+
+    virtual function void build_phase(uvm_phase phase);
+        super.build_phase(phase);
+        gen = dff_async_rst_generator::type_id::create("gen");
+        e = dff_async_rst_env::type_id::create("e", this);
+    endfunction
+
+    virtual task run_phase(uvm_phase phase);
+        phase.raise_objection(this);
+        gen.start(e.a.seqr);
+        #200;
+        phase.drop_objection(this);
+    endtask
+endclass
+
+////////////////////////////////////////
+// Testbench for Asynchronous Reset D Flip-Flop
+
+module dff_async_rst_tb();
+    dff_async_rst_if dif();
+
+    d_flip_flop_async_rst dut (
+        .clk(dif.clk),
+        .arst_n(dif.arst_n),
+        .d(dif.d),
+        .q(dif.q)
+    );
+
+    initial begin
+        $dumpfile("dff_async_rst_dump.vcd");
+        $dumpvars;
+    end
+
+    // Clock Generation
+    initial begin
+        dif.clk = 0;
+        forever #5 dif.clk = ~dif.clk;
+    end
+
+    initial begin
+        uvm_config_db #(virtual dff_async_rst_if)::set(null, "uvm_test_top.e.a*", "dif", dif);
+        run_test("dff_async_rst_test");
+    end
+endmodule

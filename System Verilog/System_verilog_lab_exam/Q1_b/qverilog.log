@@ -1,0 +1,48 @@
+QuestaSim qverilog 10.1d Compiler 2012.11 Nov  1 2012
+C:\questasim_10.1d\win32\qverilog.exe .\q1_b.sv 
+-- Compiling package q1_b_sv_unit
+-- Compiling module test
+
+Top level modules:
+	test
++ C:\questasim_10.1d\win32/vsim -lib work test -c -do "run -all; quit -f" -appendlog -l qverilog.log -vopt
+# vsim -appendlog -do {run -all; quit -f} -l qverilog.log -lib work -c -vopt test 
+# ** Note: (vsim-3812) Design is being optimized...
+# 
+# //  Questa Sim
+# //  Version 10.1d win32 Nov  1 2012
+# //
+# //  Copyright 1991-2012 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  THIS WORK CONTAINS TRADE SECRET AND PROPRIETARY INFORMATION
+# //  WHICH IS THE PROPERTY OF MENTOR GRAPHICS CORPORATION OR ITS
+# //  LICENSORS AND IS SUBJECT TO LICENSE TERMS.
+# //
+# Loading sv_std.std
+# Loading work.q1_b_sv_unit(fast)
+# Loading work.test(fast)
+# run -all 
+# ORIGINAL QUEUE IS: 
+# 97
+# 71
+# 68
+# 0
+# 71
+# 50
+# 36
+# 86
+# 32
+# 21
+# SORTED QUEUE IS: 
+# 0
+# 21
+# 32
+# 36
+# 50
+# 68
+# 71
+# 71
+# 86
+# 97
+#  quit -f 

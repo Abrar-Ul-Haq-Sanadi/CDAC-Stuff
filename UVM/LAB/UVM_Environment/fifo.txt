@@ -1,0 +1,336 @@
+// fifo.sv
+module fifo #(
+    parameter DATA_WIDTH = 8,
+    parameter DEPTH = 16
+) (
+    input  logic                  clk,
+    input  logic                  rst_n,
+    input  logic                  wr_en,
+    input  logic                  rd_en,
+    input  logic [DATA_WIDTH-1:0] din,
+    output logic [DATA_WIDTH-1:0] dout,
+    output logic                  full,
+    output logic                  empty
+);
+
+    logic [DATA_WIDTH-1:0] mem [DEPTH-1:0];
+    logic [$clog2(DEPTH):0] w_ptr, r_ptr;
+    logic [$clog2(DEPTH):0] count;
+
+    // Write logic
+    always_ff @(posedge clk or negedge rst_n) begin
+        if (!rst_n) begin
+            w_ptr <= 0;
+        end else if (wr_en && !full) begin
+            mem[w_ptr] <= din;
+            w_ptr <= w_ptr + 1;
+        end
+    end
+
+    // Read logic
+    always_ff @(posedge clk or negedge rst_n) begin
+        if (!rst_n) begin
+            r_ptr <= 0;
+        end else if (rd_en && !empty) begin
+            dout <= mem[r_ptr];
+            r_ptr <= r_ptr + 1;
+        end
+    end
+
+    // Full and Empty logic
+    always_ff @(posedge clk or negedge rst_n) begin
+        if (!rst_n) begin
+            count <= 0;
+        end else if (wr_en && !full && !(rd_en && !empty)) begin
+            count <= count + 1;
+        end else if (rd_en && !empty && !(wr_en && !full)) begin
+            count <= count - 1;
+        end
+    end
+
+    assign full  = (count == DEPTH);
+    assign empty = (count == 0);
+
+endmodule
+
+
+// fifo_if.sv
+interface fifo_if #(parameter DATA_WIDTH = 8);
+    logic                  clk;
+    logic                  rst_n;
+    logic                  wr_en;
+    logic                  rd_en;
+    logic [DATA_WIDTH-1:0] din;
+    logic [DATA_WIDTH-1:0] dout;
+    logic                  full;
+    logic                  empty;
+
+    modport MASTER(input clk, rst_n, wr_en, rd_en, din, output dout, full, empty);
+endinterface
+
+
+// transaction.sv
+`include "uvm_macros.svh"
+import uvm_pkg::*;
+
+class transaction extends uvm_sequence_item;
+    rand logic wr_en;
+    rand logic rd_en;
+    rand logic [7:0] din;
+    logic [7:0] dout;
+
+    function new(input string name = "transaction");
+        super.new(name);
+    endfunction
+
+    `uvm_object_utils_begin(transaction)
+        `uvm_field_int(wr_en, UVM_DEFAULT)
+        `uvm_field_int(rd_en, UVM_DEFAULT)
+        `uvm_field_int(din, UVM_DEFAULT)
+        `uvm_field_int(dout, UVM_DEFAULT)
+    `uvm_object_utils_end
+endclass
+
+
+// generator.sv
+class generator extends uvm_sequence #(transaction);
+    `uvm_object_utils(generator)
+
+    transaction t;
+
+    function new(input string name = "generator");
+        super.new(name);
+    endfunction
+
+    virtual task body();
+        t = transaction::type_id::create("t");
+        repeat(20) begin
+            start_item(t);
+            t.randomize();
+            `uvm_info("GEN", $sformatf("Generated wr_en = %0d, rd_en = %0d, din = %0d", t.wr_en, t.rd_en, t.din), UVM_NONE);
+            finish_item(t);
+        end
+    endtask
+endclass
+
+// driver.sv
+class driver extends uvm_driver #(transaction);
+    `uvm_component_utils(driver)
+
+    virtual fifo_if #(8) fifo_if;
+    transaction tr;
+
+    function new(input string name = "driver", uvm_component parent = null);
+        super.new(name, parent);
+    endfunction
+
+    virtual function void build_phase(uvm_phase phase);
+        super.build_phase(phase);
+        if (!uvm_config_db #(virtual fifo_if #(8))::get(this, "", "fifo_if", fifo_if))
+            `uvm_error("DRV", "Unable to access uvm_config_db");
+    endfunction
+
+    virtual task run_phase(uvm_phase phase);
+        forever begin
+            seq_item_port.get_next_item(tr);
+            fifo_if.wr_en <= tr.wr_en;
+            fifo_if.rd_en <= tr.rd_en;
+            fifo_if.din <= tr.din;
+            @(posedge fifo_if.clk);
+            tr.dout = fifo_if.dout;
+            `uvm_info("DRV", $sformatf("Driven wr_en = %0d, rd_en = %0d, din = %0d, dout = %0d", tr.wr_en, tr.rd_en, tr.din, tr.dout), UVM_NONE);
+            seq_item_port.item_done();
+        end
+    endtask
+endclass
+
+
+// monitor.sv
+class monitor extends uvm_monitor;
+    `uvm_component_utils(monitor)
+
+    uvm_analysis_port #(transaction) ap;
+    virtual fifo_if #(8) fifo_if;
+    transaction tr;
+
+    function new(input string name = "monitor", uvm_component parent = null);
+        super.new(name, parent);
+        ap = new("ap", this);
+    endfunction
+
+    virtual function void build_phase(uvm_phase phase);
+        super.build_phase(phase);
+        if (!uvm_config_db #(virtual fifo_if #(8))::get(this, "", "fifo_if", fifo_if))
+            `uvm_error("MON", "Unable to access uvm_config_db");
+    endfunction
+
+    virtual task run_phase(uvm_phase phase);
+        forever begin
+            @(posedge fifo_if.clk);
+            tr = transaction::type_id::create("tr");
+            tr.wr_en = fifo_if.wr_en;
+            tr.rd_en = fifo_if.rd_en;
+            tr.din = fifo_if.din;
+            tr.dout = fifo_if.dout;
+            `uvm_info("MON", $sformatf("Monitored wr_en = %0d, rd_en = %0d, din = %0d, dout = %0d", tr.wr_en, tr.rd_en, tr.din, tr.dout), UVM_NONE);
+            ap.write(tr);
+        end
+    endtask
+endclass
+
+
+// scoreboard.sv
+class scoreboard extends uvm_scoreboard;
+    `uvm_component_utils(scoreboard)
+
+    uvm_analysis_imp #(transaction, scoreboard) imp;
+
+    queue of logic [7:0] ref_fifo;
+
+    function new(input string name = "scoreboard", uvm_component parent = null);
+        super.new(name, parent);
+        imp = new("imp", this);
+        ref_fifo = new;
+    endfunction
+
+    virtual function void write(input transaction tr);
+        `uvm_info("SCO", $sformatf("Received wr_en = %0d, rd_en = %0d, din = %0d, dout = %0d", tr.wr_en, tr.rd_en, tr.din, tr.dout), UVM_NONE);
+
+        // Reference FIFO model
+        if (tr.wr_en && !tr.rd_en && ref_fifo.size() < 16) begin
+            ref_fifo.push_back(tr.din);
+        end else if (!tr.wr_en && tr.rd_en && ref_fifo.size() > 0) begin
+            logic [7:0] ref_dout = ref_fifo.pop_front();
+            if (ref_dout != tr.dout) begin
+                `uvm_error("SCO", $sformatf("Test Failed: Expected dout = %0d, Got dout = %0d", ref_dout, tr.dout));
+            end
+        end
+    endfunction
+endclass
+
+// agent.sv
+class agent extends uvm_agent;
+    `uvm_component_utils(agent)
+
+    monitor mon;
+    driver drv;
+    uvm_sequencer #(transaction) seqr;
+
+    function new(input string name = "agent", uvm_component parent = null);
+        super.new(name, parent);
+    endfunction
+
+    virtual function void build_phase(uvm_phase phase);
+        super.build_phase(phase);
+        mon = monitor::type_id::create("mon", this);
+        drv = driver::type_id::create("drv", this);
+        seqr = uvm_sequencer #(transaction)::type_id::create("seqr", this);
+    endfunction
+
+    virtual function void connect_phase(uvm_phase phase);
+        super.connect_phase(phase);
+        drv.seq_item_port.connect(seqr.seq_item_export);
+    endfunction
+endclass
+
+
+
+// env.sv
+class env extends uvm_env;
+    `uvm_component_utils(env)
+
+    agent agt;
+    scoreboard sco;
+
+    function new(input string name = "env", uvm_component parent = null);
+        super.new(name, parent);
+    endfunction
+
+    virtual function void build_phase(uvm_phase phase);
+        super.build_phase(phase);
+        agt = agent::type_id::create("agt", this);
+        sco = scoreboard::type_id::create("sco", this);
+    endfunction
+
+    virtual function void connect_phase(uvm_phase phase);
+        super.connect_phase(phase);
+        agt.mon.ap.connect(sco.imp);
+    endfunction
+endclass
+
+
+// test.sv
+class test extends uvm_test;
+    `uvm_component_utils(test)
+
+    env e;
+    generator gen;
+
+    function new(input string name = "test", uvm_component parent = null);
+        super.new(name, parent);
+    endfunction
+
+    virtual function void build_phase(uvm_phase phase);
+        super.build_phase(phase);
+        e = env::type_id::create("e", this);
+        gen = generator::type_id::create("gen", this);
+    endfunction
+
+    virtual task run_phase(uvm_phase phase);
+        phase.raise_objection(this);
+        `uvm_info("TEST", "Starting test", UVM_LOW);
+
+        // Start the generator
+        gen.start(e.agt.seqr);
+
+        `uvm_info("TEST", "Test completed", UVM_LOW);
+        phase.drop_objection(this);
+    endtask
+endclass
+
+
+// testbench.sv
+
+
+module testbench;
+
+    // Clock and Reset signals
+    logic clk;
+    logic rst_n;
+
+    // DUT interface instance
+    fifo_if #(8) fifo_if_inst();
+
+    // DUT instance
+    fifo #(
+        .DATA_WIDTH(8),
+        .DEPTH(16)
+    ) dut (
+        .clk(clk),
+        .rst_n(rst_n),
+        .wr_en(fifo_if_inst.wr_en),
+        .rd_en(fifo_if_inst.rd_en),
+        .din(fifo_if_inst.din),
+        .dout(fifo_if_inst.dout),
+        .full(fifo_if_inst.full),
+        .empty(fifo_if_inst.empty)
+    );
+
+    // Clock generation
+    initial begin
+        clk = 0;
+        forever #5 clk = ~clk; // 100 MHz clock
+    end
+
+    // Reset generation
+    initial begin
+        rst_n = 0;
+        #20 rst_n = 1;
+    end
+
+    // Start the UVM environment
+    initial begin
+        run_test("test");
+    end
+
+endmodule

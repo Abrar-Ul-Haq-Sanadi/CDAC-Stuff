@@ -1,0 +1,32 @@
+USER SYMBOL by DSCH3
+DATE 13-07-2024 19:51:36
+SYM  #Full_adder
+BB(0,0,40,40)
+TITLE 10 -7  #Full_adder
+MODEL 6000
+REC(5,5,30,30)
+PIN(0,30,0.00,0.00)A_in
+PIN(0,20,0.00,0.00)B_in
+PIN(0,10,0.00,0.00)C_in
+PIN(40,10,2.00,1.00)Sum_out
+PIN(40,20,2.00,1.00)C_out
+LIG(0,30,5,30)
+LIG(0,20,5,20)
+LIG(0,10,5,10)
+LIG(35,10,40,10)
+LIG(35,20,40,20)
+LIG(5,5,5,35)
+LIG(5,5,35,5)
+LIG(35,5,35,35)
+LIG(35,35,5,35)
+VLG module sym16( A_in,B_in,C_in,Sum_out,C_out);
+VLG  input A_in,B_in,C_in;
+VLG  output Sum_out,C_out;
+VLG  wire w4,w5,w9;
+VLG  xor #(23) xor2_1(w4,A_in,B_in);
+VLG  and #(16) and2_2(w5,A_in,B_in);
+VLG  xor #(16) xor2_3(Sum_out,w4,C_in);
+VLG  or #(16) or2_4(C_out,w9,w5);
+VLG  and #(16) and2_5(w9,C_in,w4);
+VLG endmodule
+FSYM

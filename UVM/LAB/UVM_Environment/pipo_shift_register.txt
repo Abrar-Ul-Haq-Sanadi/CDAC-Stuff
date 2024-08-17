@@ -1,0 +1,239 @@
+module pipo_shift_register(
+    input [3:0] d_in,
+    input clk,
+    input reset,
+    output reg [3:0] d_out
+);
+
+always @(posedge clk or posedge reset) begin
+    if (reset)
+        d_out <= 4'b0000;
+    else
+        d_out <= d_in;
+end
+
+endmodule
+
+interface pipo_if();
+    logic [3:0] d_in;
+    logic clk;
+    logic reset;
+    logic [3:0] d_out;
+endinterface
+
+`include "uvm_macros.svh"
+import uvm_pkg::*;
+
+// Transaction Class
+class transaction extends uvm_sequence_item;
+    rand bit [3:0] d_in;
+    bit [3:0] d_out;
+
+    function new(input string name = "transaction");
+        super.new(name);
+    endfunction
+
+    `uvm_object_utils_begin(transaction)
+        `uvm_field_int(d_in, UVM_DEFAULT)
+        `uvm_field_int(d_out, UVM_DEFAULT)
+    `uvm_object_utils_end
+endclass
+
+// Generator Class
+class generator extends uvm_sequence #(transaction);
+    `uvm_object_utils(generator)
+
+    transaction t;
+
+    function new(input string name = "generator");
+        super.new(name);
+    endfunction
+
+    virtual task body();
+        t = transaction::type_id::create("t");
+        repeat(10) begin
+            start_item(t);
+            t.randomize();
+            `uvm_info("GEN", $sformatf("Generated d_in: %0d", t.d_in), UVM_NONE);
+            finish_item(t);
+        end
+    endtask
+endclass
+
+// Driver Class
+class driver extends uvm_driver #(transaction);
+    `uvm_component_utils(driver)
+
+    transaction tc;
+    virtual pipo_if pif;
+
+    function new(input string name = "driver", uvm_component parent = null);
+        super.new(name, parent);
+    endfunction
+
+    virtual function void build_phase(uvm_phase phase);
+        super.build_phase(phase);
+        if (!uvm_config_db#(virtual pipo_if)::get(this, "", "pif", pif))
+            `uvm_fatal("PIPO_IF", "Interface not found");
+    endfunction
+
+    virtual task run_phase(uvm_phase phase);
+        forever begin
+            seq_item_port.get_next_item(tc);
+            pif.d_in <= tc.d_in;
+            `uvm_info("DRV", $sformatf("Drove d_in: %0d", tc.d_in), UVM_NONE);
+            seq_item_port.item_done();
+            #10;
+        end
+    endtask
+endclass
+
+// Monitor Class
+class monitor extends uvm_monitor;
+    `uvm_component_utils(monitor)
+
+    uvm_analysis_port #(transaction) send;
+    transaction t;
+    virtual pipo_if pif;
+
+    function new(input string name = "monitor", uvm_component parent = null);
+        super.new(name, parent);
+        send = new("send", this);
+    endfunction
+
+    virtual function void build_phase(uvm_phase phase);
+        super.build_phase(phase);
+        if (!uvm_config_db#(virtual pipo_if)::get(this, "", "pif", pif))
+            `uvm_fatal("MON", "Interface not found");
+    endfunction
+
+    virtual task run_phase(uvm_phase phase);
+        forever begin
+            #10;
+            t = transaction::type_id::create("t");
+            t.d_out = pif.d_out;
+            `uvm_info("MON", $sformatf("Monitored d_out: %0d", t.d_out), UVM_NONE);
+            send.write(t);
+        end
+    endtask
+endclass
+
+// Scoreboard Class
+class scoreboard extends uvm_scoreboard;
+    `uvm_component_utils(scoreboard)
+
+    uvm_analysis_imp #(transaction, scoreboard) recv;
+    transaction tr;
+
+    function new(input string name = "scoreboard", uvm_component parent = null);
+        super.new(name, parent);
+        recv = new("recv", this);
+    endfunction
+
+    virtual function void build_phase(uvm_phase phase);
+        super.build_phase(phase);
+    endfunction
+
+    virtual function void write(input transaction t);
+        tr = t;
+        `uvm_info("SCO", $sformatf("Scoreboard received d_out: %0d", tr.d_out), UVM_NONE);
+        if (tr.d_out == tr.d_in) begin
+            `uvm_info("SCO", "Test Passed", UVM_NONE);
+        end
+        else begin
+            `uvm_error("SCO", "Test Failed");
+        end
+    endfunction
+endclass
+
+// Agent Class
+class agent extends uvm_agent;
+    `uvm_component_utils(agent)
+
+    monitor m;
+    driver d;
+    uvm_sequencer #(transaction) seqr;
+
+    function new(input string name = "agent", uvm_component parent = null);
+        super.new(name, parent);
+    endfunction
+
+    virtual function void build_phase(uvm_phase phase);
+        super.build_phase(phase);
+        m = monitor::type_id::create("m", this);
+        d = driver::type_id::create("d", this);
+        seqr = uvm_sequencer #(transaction)::type_id::create("seqr", this);
+    endfunction
+
+    virtual function void connect_phase(uvm_phase phase);
+        super.connect_phase(phase);
+        d.seq_item_port.connect(seqr.seq_item_export);
+    endfunction
+endclass
+
+// Environment Class
+class env extends uvm_env;
+    `uvm_component_utils(env)
+
+    scoreboard s;
+    agent a;
+
+    function new(input string name = "env", uvm_component parent = null);
+        super.new(name, parent);
+    endfunction
+
+    virtual function void build_phase(uvm_phase phase);
+        super.build_phase(phase);
+        s = scoreboard::type_id::create("s", this);
+        a = agent::type_id::create("a", this);
+    endfunction
+
+    virtual function void connect_phase(uvm_phase phase);
+        super.connect_phase(phase);
+        a.m.send.connect(s.recv);
+    endfunction
+endclass
+
+// Test Class
+class test extends uvm_test;
+    `uvm_component_utils(test)
+
+    generator gen;
+    env e;
+
+    function new(input string name = "test", uvm_component parent = null);
+        super.new(name, parent);
+    endfunction
+
+    virtual function void build_phase(uvm_phase phase);
+        super.build_phase(phase);
+        gen = generator::type_id::create("gen");
+        e = env::type_id::create("e", this);
+    endfunction
+
+    virtual task run_phase(uvm_phase phase);
+        phase.raise_objection(this);
+        gen.start(e.a.seqr);
+        #50;
+        phase.drop_objection(this);
+    endtask
+endclass
+
+// Testbench Top Module
+module pipo_tb();
+
+pipo_if pif();
+
+pipo_shift_register dut (.d_in(pif.d_in), .clk(pif.clk), .reset(pif.reset), .d_out(pif.d_out));
+
+initial begin
+    $dumpfile("dump.vcd");
+    $dumpvars;
+end
+
+initial begin
+    uvm_config_db#(virtual pipo_if)::set(null, "uvm_test_top.e.a*", "pif", pif);
+    run_test("test");
+end
+
+endmodule

@@ -1,0 +1,119 @@
+DSCH3
+VERSION 13-07-2024 19:23:53
+BB(20,-10,265,70)
+SYM  #Full_adder
+BB(20,-10,60,20)
+TITLE 30 -17  #Half_adder
+MODEL 6000
+PROP                                                                                                                                   
+REC(25,-5,30,20,r)
+VIS 5
+PIN(20,10,0.000,0.000)A
+PIN(20,0,0.000,0.000)B
+PIN(60,0,0.200,0.200)Sum_Out
+PIN(60,10,0.200,0.200)Carry_out
+LIG(20,10,25,10)
+LIG(20,0,25,0)
+LIG(55,0,60,0)
+LIG(55,10,60,10)
+LIG(25,-5,25,15)
+LIG(25,-5,55,-5)
+LIG(55,-5,55,15)
+LIG(55,15,25,15)
+VLG  module Full_adder( A,B,Sum_Out,Carry_out);
+VLG   input A,B;
+VLG   output Sum_Out,Carry_out;
+VLG   wire w3,w4,w6,w7,w8,w10,w11,;
+VLG   pmos #(1) pmos_1(w3,vdd,A); // 2.0u 0.12u
+VLG   pmos #(1) pmos_2(Sum_Out,w3,w4); // 2.0u 0.12u
+VLG   nmos #(1) nmos_3(Sum_Out,w6,w4); // 1.0u 0.12u
+VLG   pmos #(1) pmos_4(Sum_Out,w3,w7); // 2.0u 0.12u
+VLG   nmos #(1) nmos_5(Sum_Out,w8,A); // 1.0u 0.12u
+VLG   nmos #(1) nmos_6(w8,vss,B); // 1.0u 0.12u
+VLG   nmos #(1) nmos_7(w6,vss,w7); // 1.0u 0.12u
+VLG   pmos #(1) pmos_8(w3,vdd,B); // 2.0u 0.12u
+VLG   nmos #(1) nmos_9(w4,vss,A); // 1.0u 0.12u
+VLG   pmos #(1) pmos_10(w4,vdd,A); // 2.0u 0.12u
+VLG   pmos #(1) pmos_11(w7,vdd,B); // 2.0u 0.12u
+VLG   nmos #(1) nmos_12(w7,vss,B); // 1.0u 0.12u
+VLG   nmos #(1) nmos_13(w10,vss,B); // 1.0u 0.12u
+VLG   pmos #(1) pmos_14(w11,vdd,B); // 2.0u 0.12u
+VLG   pmos #(1) pmos_15(w11,vdd,A); // 2.0u 0.12u
+VLG   nmos #(1) nmos_16(w11,w10,A); // 1.0u 0.12u
+VLG   pmos #(1) pmos_17(Carry_out,vdd,w11); // 2.0u 0.12u
+VLG   nmos #(1) nmos_18(Carry_out,vss,w11); // 1.0u 0.12u
+VLG  endmodule
+FSYM
+SYM  #Full_adder
+BB(135,-10,175,20)
+TITLE 145 -17  #Half_adder
+MODEL 6000
+PROP                                                                                                                                   
+REC(140,-5,30,20,r)
+VIS 5
+PIN(135,10,0.000,0.000)A
+PIN(135,0,0.000,0.000)B
+PIN(175,0,0.200,0.200)Sum_Out
+PIN(175,10,0.200,0.200)Carry_out
+LIG(135,10,140,10)
+LIG(135,0,140,0)
+LIG(170,0,175,0)
+LIG(170,10,175,10)
+LIG(140,-5,140,15)
+LIG(140,-5,170,-5)
+LIG(170,-5,170,15)
+LIG(170,15,140,15)
+VLG  module Full_adder( A,B,Sum_Out,Carry_out);
+VLG   input A,B;
+VLG   output Sum_Out,Carry_out;
+VLG   wire w3,w4,w6,w7,w8,w10,w11,;
+VLG   pmos #(1) pmos_1(w3,vdd,A); // 2.0u 0.12u
+VLG   pmos #(1) pmos_2(Sum_Out,w3,w4); // 2.0u 0.12u
+VLG   nmos #(1) nmos_3(Sum_Out,w6,w4); // 1.0u 0.12u
+VLG   pmos #(1) pmos_4(Sum_Out,w3,w7); // 2.0u 0.12u
+VLG   nmos #(1) nmos_5(Sum_Out,w8,A); // 1.0u 0.12u
+VLG   nmos #(1) nmos_6(w8,vss,B); // 1.0u 0.12u
+VLG   nmos #(1) nmos_7(w6,vss,w7); // 1.0u 0.12u
+VLG   pmos #(1) pmos_8(w3,vdd,B); // 2.0u 0.12u
+VLG   nmos #(1) nmos_9(w4,vss,A); // 1.0u 0.12u
+VLG   pmos #(1) pmos_10(w4,vdd,A); // 2.0u 0.12u
+VLG   pmos #(1) pmos_11(w7,vdd,B); // 2.0u 0.12u
+VLG   nmos #(1) nmos_12(w7,vss,B); // 1.0u 0.12u
+VLG   nmos #(1) nmos_13(w10,vss,B); // 1.0u 0.12u
+VLG   pmos #(1) pmos_14(w11,vdd,B); // 2.0u 0.12u
+VLG   pmos #(1) pmos_15(w11,vdd,A); // 2.0u 0.12u
+VLG   nmos #(1) nmos_16(w11,w10,A); // 1.0u 0.12u
+VLG   pmos #(1) pmos_17(Carry_out,vdd,w11); // 2.0u 0.12u
+VLG   nmos #(1) nmos_18(Carry_out,vss,w11); // 1.0u 0.12u
+VLG  endmodule
+FSYM
+SYM  #or2_sch
+BB(225,40,265,70)
+TITLE 235 33  #or2_sch
+MODEL 6000
+PROP                                                                                                                                   
+REC(230,45,30,20,r)
+VIS 5
+PIN(225,60,0.000,0.000)A_in
+PIN(225,50,0.000,0.000)B_in
+PIN(265,50,0.200,0.200)Y_out
+LIG(225,60,230,60)
+LIG(225,50,230,50)
+LIG(260,50,265,50)
+LIG(230,45,230,65)
+LIG(230,45,260,45)
+LIG(260,45,260,65)
+LIG(260,65,230,65)
+VLG  module or2_sch( A_in,B_in,Y_out);
+VLG   input A_in,B_in;
+VLG   output Y_out;
+VLG   wire w3,w4,w5,;
+VLG   pmos #(31) pmos_1(w5,w3,w4); // 2.0u 0.12u
+VLG   pmos #(10) pmos_2(w3,vdd,A_in); // 2.0u 0.12u
+VLG   nmos #(31) nmos_3(w5,vss,B_in); // 1.0u 0.12u
+VLG   nmos #(31) nmos_4(w5,vss,A_in); // 1.0u 0.12u
+VLG   pmos #(17) pmos_5(Y_out,vdd,w5); // 2.0u 0.12u
+VLG   nmos #(17) nmos_6(Y_out,vss,w5); // 1.0u 0.12u
+VLG  endmodule
+FSYM
+FFIG example

@@ -1,0 +1,259 @@
+module d_flip_flop (
+    input logic clk,
+    input logic d,
+    output logic q
+);
+
+    always_ff @(posedge clk) begin
+        q <= d;
+    end
+
+endmodule
+
+//interface
+
+interface dff_if();
+    logic clk;
+    logic d;
+    logic q;
+endinterface
+
+//environment
+
+`include "uvm_macros.svh"
+import uvm_pkg::*;
+
+////////////////////////////////////////
+// Transaction for D Flip-Flop
+
+class dff_transaction extends uvm_sequence_item;
+    rand bit d;
+    bit q;
+
+    function new(input string name = "dff_transaction");
+        super.new(name);
+    endfunction
+
+    `uvm_object_utils_begin(dff_transaction)
+        `uvm_field_int(d, UVM_DEFAULT)
+        `uvm_field_int(q, UVM_DEFAULT)
+    `uvm_object_utils_end
+endclass
+
+////////////////////////////////////////
+// Generator for D Flip-Flop
+
+class dff_generator extends uvm_sequence #(dff_transaction);
+    `uvm_object_utils(dff_generator)
+
+    dff_transaction t;
+
+    function new(input string name = "dff_generator");
+        super.new(name);
+    endfunction
+
+    virtual task body();
+        t = dff_transaction::type_id::create("t");
+        repeat (16) begin
+            start_item(t);
+            t.randomize();
+            `uvm_info("GEN", $sformatf("Data sent to Driver d: %0d", t.d), UVM_NONE);
+            finish_item(t);
+            #10;
+        end
+    endtask
+endclass
+
+////////////////////////////////////////
+// Driver for D Flip-Flop
+
+class dff_driver extends uvm_driver #(dff_transaction);
+    `uvm_component_utils(dff_driver)
+
+    function new(input string name = "dff_driver", uvm_component parent = null);
+        super.new(name, parent);
+    endfunction
+
+    virtual dff_if dif;
+
+    virtual function void build_phase(uvm_phase phase);
+        super.build_phase(phase);
+        if (!uvm_config_db #(virtual dff_if)::get(this, "", "dif", dif))
+            `uvm_error("DRV", "Unable to access uvm_config_db");
+    endfunction
+
+    virtual task run_phase(uvm_phase phase);
+        forever begin
+            seq_item_port.get_next_item(req);
+            dif.d <= req.d;
+            `uvm_info("DRV", $sformatf("Trigger DUT d: %0d", req.d), UVM_NONE);
+            seq_item_port.item_done();
+            #10;
+        end
+    endtask
+endclass
+
+////////////////////////////////////////
+// Monitor for D Flip-Flop
+
+class dff_monitor extends uvm_monitor;
+    `uvm_component_utils(dff_monitor)
+
+    uvm_analysis_port #(dff_transaction) send;
+
+    function new(input string name = "dff_monitor", uvm_component parent = null);
+        super.new(name, parent);
+        send = new("send", this);
+    endfunction
+
+    dff_transaction t;
+    virtual dff_if dif;
+
+    virtual function void build_phase(uvm_phase phase);
+        super.build_phase(phase);
+        if (!uvm_config_db #(virtual dff_if)::get(this, "", "dif", dif))
+            `uvm_error("MON", "Unable to access uvm_config_db");
+    endfunction
+
+    virtual task run_phase(uvm_phase phase);
+        forever begin
+            #10;
+            t = dff_transaction::type_id::create("t");
+            t.d = dif.d;
+            t.q = dif.q;
+            `uvm_info("MON", $sformatf("Data sent to Scoreboard d: %0d, q: %0d", t.d, t.q), UVM_NONE);
+            send.write(t);
+        end
+    endtask
+endclass
+
+////////////////////////////////////////
+// Scoreboard for D Flip-Flop
+
+class dff_scoreboard extends uvm_scoreboard;
+    `uvm_component_utils(dff_scoreboard)
+
+    uvm_analysis_imp #(dff_transaction, dff_scoreboard) recv;
+
+    function new(input string name = "dff_scoreboard", uvm_component parent = null);
+        super.new(name, parent);
+        recv = new("recv", this);
+    endfunction
+
+    virtual function void write(input dff_transaction t);
+        if (t.q != t.d) begin
+            `uvm_error("SCO", $sformatf("Test Failed. Expected q: %0d, Actual q: %0d", t.d, t.q));
+        end else begin
+            `uvm_info("SCO", "Test Passed", UVM_NONE);
+        end
+    endfunction
+endclass
+
+////////////////////////////////////////
+// Agent for D Flip-Flop
+
+class dff_agent extends uvm_agent;
+    `uvm_component_utils(dff_agent)
+
+    function new(input string name = "dff_agent", uvm_component parent = null);
+        super.new(name, parent);
+    endfunction
+
+    dff_monitor m;
+    dff_driver d;
+    uvm_sequencer #(dff_transaction) seqr;
+
+    virtual function void build_phase(uvm_phase phase);
+        super.build_phase(phase);
+        m = dff_monitor::type_id::create("m", this);
+        d = dff_driver::type_id::create("d", this);
+        seqr = uvm_sequencer #(dff_transaction)::type_id::create("seqr", this);
+    endfunction
+
+    virtual function void connect_phase(uvm_phase phase);
+        super.connect_phase(phase);
+        d.seq_item_port.connect(seqr.seq_item_export);
+    endfunction
+endclass
+
+////////////////////////////////////////
+// Environment for D Flip-Flop
+
+class dff_env extends uvm_env;
+    `uvm_component_utils(dff_env)
+
+    function new(input string name = "dff_env", uvm_component parent = null);
+        super.new(name, parent);
+    endfunction
+
+    dff_scoreboard s;
+    dff_agent a;
+
+    virtual function void build_phase(uvm_phase phase);
+        super.build_phase(phase);
+        s = dff_scoreboard::type_id::create("s", this);
+        a = dff_agent::type_id::create("a", this);
+    endfunction
+
+    virtual function void connect_phase(uvm_phase phase);
+        super.connect_phase(phase);
+        a.m.send.connect(s.recv);
+    endfunction
+endclass
+
+////////////////////////////////////////
+// Test for D Flip-Flop
+
+class dff_test extends uvm_test;
+    `uvm_component_utils(dff_test)
+
+    function new(input string name = "dff_test", uvm_component parent = null);
+        super.new(name, parent);
+    endfunction
+
+    dff_generator gen;
+    dff_env e;
+
+    virtual function void build_phase(uvm_phase phase);
+        super.build_phase(phase);
+        gen = dff_generator::type_id::create("gen");
+        e = dff_env::type_id::create("e", this);
+    endfunction
+
+    virtual task run_phase(uvm_phase phase);
+        phase.raise_objection(this);
+        gen.start(e.a.seqr);
+        #200;
+        phase.drop_objection(this);
+    endtask
+endclass
+
+////////////////////////////////////////
+// Testbench for D Flip-Flop
+
+module dff_tb();
+    dff_if dif();
+
+    d_flip_flop dut (
+        .clk(dif.clk),
+        .d(dif.d),
+        .q(dif.q)
+    );
+
+    initial begin
+        $dumpfile("dff_dump.vcd");
+        $dumpvars;
+    end
+
+    // Clock Generation
+    initial begin
+        dif.clk = 0;
+        forever #5 dif.clk = ~dif.clk;
+    end
+
+    initial begin
+        uvm_config_db #(virtual dff_if)::set(null, "uvm_test_top.e.a*", "dif", dif);
+        run_test("dff_test");
+    end
+endmodule
+
