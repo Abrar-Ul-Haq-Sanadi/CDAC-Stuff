@@ -1,0 +1,32 @@
+USER SYMBOL by DSCH3
+DATE 7/6/2024 5:30:33 PM
+SYM  #FA
+BB(0,0,35,40)
+TITLE 10 -7  #FA
+MODEL 6000
+REC(5,5,25,30)
+PIN(0,30,0.00,0.00)A
+PIN(0,20,0.00,0.00)B
+PIN(0,10,0.00,0.00)C
+PIN(35,10,2.00,1.00)S
+PIN(35,20,2.00,1.00)COUT
+LIG(0,30,5,30)
+LIG(0,20,5,20)
+LIG(0,10,5,10)
+LIG(30,10,35,10)
+LIG(30,20,35,20)
+LIG(5,5,5,35)
+LIG(5,5,30,5)
+LIG(30,5,30,35)
+LIG(30,35,5,35)
+VLG module FA( A,B,C,S,COUT);
+VLG  input A,B,C;
+VLG  output S,COUT;
+VLG  wire w4,w7,w8,;
+VLG  xor xor2_1(w4,A,B);
+VLG  xor xor2_2(S,w4,C);
+VLG  and and2_3(w7,B,A);
+VLG  and and2_4(w8,C,w4);
+VLG  or or2_5(COUT,w8,w7);
+VLG endmodule
+FSYM

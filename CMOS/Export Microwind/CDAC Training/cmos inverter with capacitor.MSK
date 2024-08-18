@@ -1,0 +1,33 @@
+VERSION 7/6/2024 12:18:33 PM
+FIG #E:\GLA\gla-2024\CDAC Training\Export Microwind\CDAC Training\cmos inverter with capacitor.MSK
+BB(3,-32,120,50)
+SIMU #5.00
+REC(13,12,65,30,NW)
+REC(53,20,17,15,DP)
+REC(20,20,23,15,DP)
+REC(53,-22,17,13,DN)
+REC(20,-22,23,13,DN)
+REC(28,28,6,4,CO)
+REC(29,-19,5,5,CO)
+REC(61,-14,2,3,CO)
+REC(60,25,3,4,CO)
+REC(3,-2,40,9,PO)
+REC(43,-29,10,79,PO)
+REC(25,-32,12,20,ME)
+REC(58,-16,7,47,ME)
+REC(65,0,26,6,ME)
+REC(25,24,12,26,ME)
+REC(43,20,10,15,DP)
+REC(43,-22,10,13,DN)
+RLCC 80 3 85 3 1 #0.02
+TITLE 33 48  #Vdd
+$1 1000 0 
+TITLE 76 38  #Vdd
+$1 1000 0 
+TITLE 11 2  #input
+$c 1000 0 0.2250 0.2500 0.4750 0.5000 
+TITLE 89 4  #out
+$v 1000 0 
+TITLE 33 -28  #Vss
+$0 1000 0 
+FFIG E:\GLA\gla-2024\CDAC Training\Export Microwind\CDAC Training\cmos inverter with capacitor.MSK
